@@ -1,7 +1,6 @@
 // artifical neural network for test and learning purposes. 2024, M64 Schallner
 // <mario.a.schallner@gmail.com>
-// A forward propagation artifical neural network (ANN) very close to a
-// multi-layer perceptron.
+// A forward propagation artifical neural network (ANN).
 // Evolution-theory and genetic algorithm based learning.
 // Various activation functions to choose from.
 #include <math.h>
