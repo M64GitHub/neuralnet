@@ -65,8 +65,11 @@ NeuralNetwork *initializeNetwork(int n_i_neurons, int n_o_neurons,
   // Allocate memory for neurons / layers
   network->i_layer = (Neuron *)malloc(sizeof(Neuron) * n_i_neurons);
   network->o_layer = (Neuron *)malloc(sizeof(Neuron) * n_o_neurons);
-  network->h_layers = (Neuron **)malloc(sizeof(Neuron) * n_hidden_layers *
-                                        n_neurons_per_hlayer);
+
+  network->h_layers = (Neuron **)malloc(sizeof(Neuron *) * n_hidden_layers);
+  for (int L = 0; L < n_hidden_layers; L++) {
+    network->h_layers[L] = (Neuron *)malloc(sizeof(Neuron) * n_neurons_per_hlayer);
+  }
 
   // Init neurons (set bias input to 1, all else to 0)
 
@@ -89,9 +92,11 @@ NeuralNetwork *initializeNetwork(int n_i_neurons, int n_o_neurons,
 
   // output layer: as many neurons as specified as network outputs
   for (int o = 0; o < n_o_neurons; o++) {
-    network->o_layer[o].num_inputs = n_neurons_per_hlayer + 1;
+    network->o_layer[o].num_inputs = n_neurons_per_hlayer;
     // output neurons have as many inputs as hidden layer neurons (+1 as bias)
     network->o_layer[o].input_vals =
+        (double *)malloc(sizeof(double) * (n_neurons_per_hlayer + 1));
+    network->o_layer[o].weights =
         (double *)malloc(sizeof(double) * (n_neurons_per_hlayer + 1));
 
     // init neuron's bias to 0
@@ -108,24 +113,28 @@ NeuralNetwork *initializeNetwork(int n_i_neurons, int n_o_neurons,
   }                                   // o, output layer neuron number
 
   // hidden layers
-  for (int l = 0; l < n_o_neurons; l++) {
-    network->o_layer[l].num_inputs = n_neurons_per_hlayer + 1;
-    // input neurons have as many inputs as hidden layer neurons (+1 as bias)
-    network->o_layer[l].input_vals =
-        (double *)malloc(sizeof(double) * (n_neurons_per_hlayer + 1));
+  for (int L = 0; L < n_hidden_layers; L++) {
+    for (int l = 0; l < n_neurons_per_hlayer; l++) {
+      network->h_layers[L][l].num_inputs = n_neurons_per_hlayer;
+      // neurons have as many inputs as hidden layer neurons (+1 as bias)
+      network->h_layers[L][l].input_vals =
+          (double *)malloc(sizeof(double) * (n_neurons_per_hlayer + 1));
+      network->h_layers[L][l].weights =
+          (double *)malloc(sizeof(double) * (n_neurons_per_hlayer + 1));
 
-    // init neuron's bias to 0
-    network->i_layer[l].input_vals[0] = 1.0; // fixed bias multiplicator 1
-    network->i_layer[l].weights[0] = 0.0;    // bias = 0
+      // init neuron's bias to 0
+      network->h_layers[L][l].input_vals[0] = 1.0; // fixed bias multiplicator 1
+      network->h_layers[L][l].weights[0] = 0.0;    // bias = 0
 
-    // init neuron's weights, values to 0
-    for (int i = 1; i < (n_neurons_per_hlayer + 1); i++) {
-      network->i_layer[l].input_vals[i] = 0.0; // input neuron input = 0
-      network->i_layer[l].weights[i] = 0.0;    // input neuron weight = 0
-    }
+      // init neuron's weights, values to 0
+      for (int i = 1; i < (n_neurons_per_hlayer + 1); i++) {
+        network->h_layers[L][l].input_vals[i] = 0.0; // neuron input = 0
+        network->h_layers[L][l].weights[i] = 0.0;    // neuron weight = 0
+      }
 
-    network->i_layer[l].output = 0.0; // input neuron output = 0
-  }                                   // o, output layer neuron number
+      network->h_layers[L][l].output = 0.0; // neuron output = 0
+    }                                       // l, hidden layer neuron number
+  }                                         // L, layer number
 
   return network;
 }
@@ -139,4 +148,7 @@ void setInputValues(NeuralNetwork *network, double *inputValues) {}
 // Function for forward propagation to calculate the output of the network
 void forwardPropagation(NeuralNetwork *network) {}
 
-int main() { return 0; }
+int main() {
+  NeuralNetwork *network = initializeNetwork(2, 1, 1, 3);
+  return 0;
+}
