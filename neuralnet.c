@@ -21,7 +21,8 @@
 // We make the convention that a neuron always has 1 input more than specified.
 // We choose input 0 for this, and set it's value to 1 on purpose. This way we
 // we further on might have advantages in calculation as we only need to apply
-// the same kind of operation to each input to get the weighted sum.
+// the same kind of operation to each input to get the weighted sum, with an 
+// added bias that will be represented by weight 0.
 // (And we can work with operating on weights only).
 // 1 * x = x, so it's like adding x to the weighted sum, and we have our bias.
 typedef struct S_Neuron {
