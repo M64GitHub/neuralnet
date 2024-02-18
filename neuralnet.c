@@ -61,13 +61,20 @@ NeuralNetwork *initializeNetwork(int n_i_neurons, int n_o_neurons,
                                  int n_hidden_layers,
                                  int n_neurons_per_hlayer) {
   NeuralNetwork *network = (NeuralNetwork *)malloc(sizeof(NeuralNetwork));
+
+  network->num_inputs = n_i_neurons;
+  network->num_outputs = n_o_neurons;
+  network->num_h_layers = n_hidden_layers;
+  network->neurons_per_h_layer = n_neurons_per_hlayer;
+
   // Allocate memory for neurons / layers
   network->i_layer = (Neuron *)malloc(sizeof(Neuron) * n_i_neurons);
   network->o_layer = (Neuron *)malloc(sizeof(Neuron) * n_o_neurons);
 
   network->h_layers = (Neuron **)malloc(sizeof(Neuron *) * n_hidden_layers);
   for (int L = 0; L < n_hidden_layers; L++) {
-    network->h_layers[L] = (Neuron *)malloc(sizeof(Neuron) * n_neurons_per_hlayer);
+    network->h_layers[L] =
+        (Neuron *)malloc(sizeof(Neuron) * n_neurons_per_hlayer);
   }
 
   // Init neurons (set bias input to 1, all else to 0)
