@@ -146,7 +146,29 @@ NeuralNetwork *initializeNetwork(int n_i_neurons, int n_o_neurons,
 }
 
 // Function to free memory allocated for the neural network
-void freeNetwork(NeuralNetwork *network) {}
+void freeNetwork(NeuralNetwork *network) {
+  for (int i = 0; i < network->num_inputs; i++) {
+    free(network->i_layer[i].input_vals);
+    free(network->i_layer[i].weights);
+  }
+
+  for (int o = 0; o < network->num_outputs; o++) {
+    free(network->o_layer[o].input_vals);
+    free(network->o_layer[o].weights);
+  }
+
+  // hidden layers
+  for (int L = 0; L < network->num_h_layers; L++) {
+    for (int l = 0; l < network->neurons_per_h_layer; l++) {
+      free(network->h_layers[L][l].input_vals);
+      free(network->h_layers[L][l].weights);
+    }
+  }
+  for (int L = 0; L < network->num_h_layers; L++) {
+    free(network->h_layers[L]);
+  }
+  free(network->h_layers);
+}
 
 // Function to set input values for the input layer
 void setInputValues(NeuralNetwork *network, double *inputValues) {}
@@ -156,5 +178,8 @@ void forwardPropagation(NeuralNetwork *network) {}
 
 int main() {
   NeuralNetwork *network = initializeNetwork(2, 1, 1, 3);
+
+  freeNetwork(network);
+
   return 0;
 }
