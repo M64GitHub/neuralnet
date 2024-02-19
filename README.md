@@ -21,7 +21,8 @@ Current model format will only have to store a weigth matrix, number of inputs a
  - loss function ...
 
  - learning process based on evolutions, genetic algorithms ...
+ - export for TensorFlow or/and PyTorch ...
 
 ## Outlook
 
-The journey just begins. A translation to C++, zig and cuda-C is in my mind. Implement more classical training methods. Tensorflow compatibility of the model data is one of the main goals, too.
+The journey just begins. A translation to C++, zig and cuda-C is in my mind. Implement more classical training methods. Exporting to Tensorflow- or PyTorch-compatible model formatsis one of the main goals, too.
