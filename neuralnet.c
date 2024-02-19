@@ -253,6 +253,7 @@ void dumpNetwork(NeuralNetwork *network) {
 }
 
 int main() {
+  // 2 inputs, 1 output, 1 hidden layer, layer size: 3
   NeuralNetwork *network = initializeNetwork(2, 1, 1, 3);
 
   double i_vals[] = { 0.1, 0.2 };
