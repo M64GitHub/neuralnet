@@ -1,6 +1,6 @@
 # neuralnet
 
-Adaptable Artificial Feedforward Neural Network for Test and Learning Purposes for Multi-class Classification or Nonlinear Regression. Evolution-theory and genetic algorithm based learning. Hacking playground and deep dive into the concepts of modern ML and Ai.
+Artificial Feedforward Evolutionary/Genetic Neural Network: An Adaptable Model for Test and Learning Purposes in Multi-class Classification or Nonlinear Regression. Evolution-theory and genetic algorithm based learning. Hacking playground and deep dive into the concepts of modern ML and Ai.
 
 ## Motivation
 The goal is to research and understand the concepts of modern ai better, by writing them myself and creating a playground for experimentation. One focus shall then lay in inspection of the later trained model, and trying to find out in what ways a model can be best analyzed, if, at all. I am thinking of writing a kind of visualizer / "debugger" of the trained model's activity when reacting to different inputs. I am curious if multiple (almost "isolatable") "brain regions" will emerge, that trigger specific output labels, or the model's "knowledge" will be completely un-analyzable.  
