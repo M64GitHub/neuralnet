@@ -182,31 +182,30 @@ void setInputValues(NeuralNetwork *network, double *inputValues) {
 void forwardPropagation(NeuralNetwork *network) {}
 
 void dumpNeuron(Neuron *neuron) {
-      Neuron n = *neuron;
-      // inputs
-      printf("i{");
-      for(int i=0; i<n.num_inputs;i++) {
-        printf("%.2f", n.input_vals[i+1]);
-        if (i < (n.num_inputs - 1))
-          printf(",");
-      }
-      printf("}/");
+  Neuron n = *neuron;
+  // inputs
+  printf("i{");
+  for (int i = 0; i < n.num_inputs; i++) {
+    printf("%.2f", n.input_vals[i + 1]);
+    if (i < (n.num_inputs - 1))
+      printf(",");
+  }
+  printf("}/");
 
-      // weights
-      printf("w{");
-      for(int i=0; i<n.num_inputs;i++){
-        printf("%.2f", n.weights[i+1]);
-        if (i < (n.num_inputs - 1))
-          printf(",");
-      }
-      printf("}/");
+  // weights
+  printf("w{");
+  for (int i = 0; i < n.num_inputs; i++) {
+    printf("%.2f", n.weights[i + 1]);
+    if (i < (n.num_inputs - 1))
+      printf(",");
+  }
+  printf("}/");
 
-      // bias:
-      printf("b:%.2f/", n.weights[0]);
+  // bias:
+  printf("b:%.2f/", n.weights[0]);
 
-      // output
-      printf("o:%.2f}", n.output);
-
+  // output
+  printf("o:%.2f}", n.output);
 }
 
 // Function to dump values of an nn
@@ -219,7 +218,7 @@ void dumpNetwork(NeuralNetwork *network) {
   printf("LI:{");
   for (int i = 0; i < network->num_inputs; i++) {
     // printf("%f", network->i_layer[i].input_vals[1]); // 0 is bias
-    printf("N%d:",i);
+    printf("N%d:", i);
     dumpNeuron(&network->i_layer[i]);
     if (i < (network->num_inputs - 1))
       printf(", ");
@@ -230,12 +229,11 @@ void dumpNetwork(NeuralNetwork *network) {
   for (int L = 0; L < network->num_h_layers; L++) {
     printf("LH[%d]:{", L);
     for (int l = 0; l < network->neurons_per_h_layer; l++) {
-    printf("N%d:", l);
+      printf("N%d:", l);
       Neuron n = network->h_layers[L][l];
       dumpNeuron(&n);
       if (l < (network->neurons_per_h_layer - 1))
         printf(", ");
-
     }
     printf("}\n");
   }
@@ -256,7 +254,7 @@ int main() {
   // 2 inputs, 1 output, 1 hidden layer, layer size: 3
   NeuralNetwork *network = initializeNetwork(2, 1, 1, 3);
 
-  double i_vals[] = { 0.1, 0.2 };
+  double i_vals[] = {0.1, 0.2};
   setInputValues(network, i_vals);
 
   dumpNetwork(network);
