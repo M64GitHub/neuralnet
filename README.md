@@ -24,4 +24,4 @@ Current model format will only have to store a weigth matrix, number of inputs a
 
 ## Outlook
 
-The journey just begins. A translation to C++, zig and cuda-C is in my mind. Implement more classical training methods. Tensorflow compatibility is one of the main goals, too.
+The journey just begins. A translation to C++, zig and cuda-C is in my mind. Implement more classical training methods. Tensorflow compatibility of the model data is one of the main goals, too.
