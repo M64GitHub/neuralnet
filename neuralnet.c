@@ -171,14 +171,79 @@ void freeNetwork(NeuralNetwork *network) {
 }
 
 // Function to set input values for the input layer
-void setInputValues(NeuralNetwork *network, double *inputValues) {}
+void setInputValues(NeuralNetwork *network, double *inputValues) {
+  for (int i = 0; i <= network->num_inputs; i++) {
+    // ...[0] = bias;
+    network->i_layer->input_vals[i + 1] = inputValues[i];
+  }
+}
 
 // Function for forward propagation to calculate the output of the network
 void forwardPropagation(NeuralNetwork *network) {}
 
+// Function to dump values of an nn
+void dumpNetwork(NeuralNetwork *network) {
+  printf("dumping network %p: #i:%d, #o:%d, #L:%d Lsz:%d\n", network,
+         network->num_inputs, network->num_outputs, network->num_h_layers,
+         network->neurons_per_h_layer);
+
+  // inputs
+  printf("i[]:{");
+  for (int i = 0; i < network->num_inputs; i++) {
+    printf("%f", network->i_layer[i].input_vals[1]); // 0 is bias
+    if (i < (network->num_inputs - 1))
+      printf(", ");
+  }
+  printf("}\n");
+
+  // hidden layers
+
+  for (int L = 0; L < network->num_h_layers; L++) {
+    printf("l[%d]:i[]/w[]/o:{", L);
+    for (int l = 0; l < network->neurons_per_h_layer; l++) {
+    printf("N%d:", l);
+      Neuron n = network->h_layers[L][l];
+      // inputs
+      printf("i{");
+      for(int i=0; i<n.num_inputs;i++) {
+        printf("%.2f", n.input_vals[i+1]);
+        if (i < (n.num_inputs - 1))
+          printf(",");
+      }
+      printf("}/");
+
+      // weights
+      printf("w{");
+      for(int i=0; i<n.num_inputs;i++){
+        printf("%.2f", n.weights[i+1]);
+        if (i < (n.num_inputs - 1))
+          printf(",");
+      }
+      printf("}/");
+
+      // output
+      printf("o:%.2f}", n.output);
+
+      if (l < (network->neurons_per_h_layer - 1))
+        printf(", ");
+
+    }
+    printf("}\n");
+  }
+
+  // outputs
+  printf("o[]:{");
+  for (int o = 0; o < network->num_outputs; o++) {
+    printf("%.2f", network->o_layer[o].output); // 0 is bias
+    if (o < (network->num_outputs - 1))
+      printf(", ");
+  }
+  printf("}\n");
+}
+
 int main() {
   NeuralNetwork *network = initializeNetwork(2, 1, 1, 3);
-
+  dumpNetwork(network);
   freeNetwork(network);
 
   return 0;
