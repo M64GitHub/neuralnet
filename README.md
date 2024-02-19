@@ -11,6 +11,17 @@ This is currently replicating lost work of my youth in C ;), and continueing wit
 Pre functional.  
 Current model format will only have to store a weigth matrix, number of inputs and ouputs and probably an indicator which activation function was used (if I choose to keep it same for all neurons, not sure yet) ... 
 
+ - structs for neurons, networks ... OK
+ - initializeNetwork(NeuralNetwork *) ... OK
+ - freeNetwork(NeuralNetwork *) ... OK
+ - setInputValues(double[]) ... OK
+ - dump functions for Neuron, NeuralNetwork ... OK
+
+ - forwardPropagation(NeuralNetwork *) ...
+ - loss function ...
+
+ - learning process based on evolutions, genetic algorithms ...
+
 ## Outlook
 
 The journey just begins. A translation to C++, zig and cuda-C is in my mind. Implement more classical training methods. Tensorflow compatibility is one of the main goals, too.
