@@ -172,9 +172,9 @@ void freeNetwork(NeuralNetwork *network) {
 
 // Function to set input values for the input layer
 void setInputValues(NeuralNetwork *network, double *inputValues) {
-  for (int i = 0; i <= network->num_inputs; i++) {
+  for (int i = 0; i < network->num_inputs; i++) {
     // ...[0] = bias;
-    network->i_layer->input_vals[i + 1] = inputValues[i];
+    network->i_layer[i].input_vals[1] = inputValues[i];
   }
 }
 
@@ -254,7 +254,12 @@ void dumpNetwork(NeuralNetwork *network) {
 
 int main() {
   NeuralNetwork *network = initializeNetwork(2, 1, 1, 3);
+
+  double i_vals[] = { 0.1, 0.2 };
+  setInputValues(network, i_vals);
+
   dumpNetwork(network);
+
   freeNetwork(network);
 
   return 0;
