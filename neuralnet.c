@@ -6,6 +6,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/time.h> // for gettimeofday
 
 // -- CONSTANTS for learning
 // Learning is based on evolution theory.
@@ -54,6 +55,18 @@ typedef struct S_NeuralNetwork {
 // Sigmoid activation function
 double sigmoid(double x) { 
   return 1.0 / (1.0 + exp(-x)); 
+}
+
+unsigned long get_timestamp() {
+  struct timeval tv;
+  gettimeofday(&tv, NULL);
+  unsigned long r = 1000000 * tv.tv_sec + tv.tv_usec;
+  return r;
+}
+
+unsigned long get_duration_since(unsigned long t1) {
+  unsigned long t2 = get_timestamp();
+  return t2 - t1;
 }
 
 // -- nn functions
@@ -204,7 +217,7 @@ void forwardPropagation(NeuralNetwork *network) {
   // (h_layers[0]):
   //   it is important to there store the input values from index 1 onwards,
   //   as input val[0] is always used for the bias in every neuron:
-  //   - for each neuron we find in the hidden layer[0] we set our output
+  //   - for each neuron we find in the hidden layer[0], we set our output
   //     as the hidden neuron's input [i+1].
   //     doing it right here helps to treat all neurons in all hidden layers
   //     the same in the next big step:
@@ -335,14 +348,24 @@ void dumpNetwork(NeuralNetwork *network) {
 }
 
 int main() {
+  unsigned long ts1 = 0;
+  unsigned long ts2 = 0;
+
+  ts1 = get_timestamp();
   // 2 inputs, 1 output, 1 hidden layer, layer size: 3
   NeuralNetwork *network = initializeNetwork(2, 1, 2, 3);
+  printf(" * initialization took: %lu usecs\n", get_duration_since(ts1));
 
   double i_vals[] = {0.1, 0.2};
+
+  ts1 = get_timestamp();
   setInputValues(network, i_vals);
+  printf(" * set input vals took: %lu usecs\n", get_duration_since(ts1));
   dumpNetwork(network);
 
+  ts1 = get_timestamp();
   forwardPropagation(network);
+  printf(" * forward propagation took: %lu usecs\n", get_duration_since(ts1));
   dumpNetwork(network);
 
   freeNetwork(network);
