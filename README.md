@@ -8,8 +8,27 @@ The goal is to research and better understand the concepts of modern ML, by writ
 This is currently replicating lost work of my youth in C ;), and continueing with it. I think the first artificial neural network / evolution theory based learning combination I developed in C++, but not sure anymore.
 
 ## Status
-Pre functional.  
-Current model format will only have to store a weigth matrix, number of inputs and ouputs and probably an indicator which activation function was used (if I choose to keep it same for all neurons, not sure yet) ... 
+- Overall: Pre functional
+- Neural net computations: functional
+- Training: /
+- Evolutionary / genetic algorithms: /
+
+Current neuron format:
+ - number of inputs
+ - inputs[]
+ - weights[]
+ - output
+
+Current model format:
+ - number of inputs (input neurons, each w/ 1 input)
+ - number of hidden layers
+ - number of neurons per hidden layer
+ - number of outputs
+ - input layer
+ - hidden layers[]
+ - output layer
+
+The structure of the final model is dynamically created, derived from the net's "number of ..." parameters.
 
  - structs for neurons, networks ... OK
  - initializeNetwork(NeuralNetwork *) ... OK
