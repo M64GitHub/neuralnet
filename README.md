@@ -8,21 +8,44 @@ The goal is to research and better understand the concepts of modern ML, by writ
 This is currently replicating lost work of my youth in C ;), and continueing with it. I think the first artificial neural network / evolution theory based learning combination I developed in C++, but not sure anymore.
 
 ## Status
-Pre functional.  
-Current model format will only have to store a weigth matrix, number of inputs and ouputs and probably an indicator which activation function was used (if I choose to keep it same for all neurons, not sure yet) ... 
+- Overall: Pre functional
+- Neural net computations: functional
+- Training: /
+- Evolutionary / genetic algorithms: /
 
+## Specification
+Current neuron format:
+ - number of inputs
+ - inputs[]
+ - weights[]
+ - output
+
+Current model format:
+ - number of inputs (input neurons, each w/ 1 input)
+ - number of hidden layers
+ - number of neurons per hidden layer
+ - number of outputs
+ - input layer
+ - hidden layers[]
+ - output layer
+
+The structure of the final model is dynamically created, derived from the net's "number of ..." parameters.
+
+### Implementation Notes
  - structs for neurons, networks ... OK
  - initializeNetwork(NeuralNetwork *) ... OK
  - freeNetwork(NeuralNetwork *) ... OK
  - setInputValues(double[]) ... OK
  - dump functions for Neuron, NeuralNetwork ... OK
-
- - forwardPropagation(NeuralNetwork *) ...
- - loss function ...
-
+ - forwardPropagation(NeuralNetwork *) ... OK
  - learning process based on evolution- and genetic algorithms ...
- - export for TensorFlow or/and PyTorch ...
+ - progress visualisation ...
+ - export to any industry standard TensorFlow/Torch ...
+   
+#### Model specific
+ - data import
+ - loss/fitness function ...
 
 ## Outlook
 
-The journey just begins. A translation to C++, zig and cuda-C is in my mind. Implement more classical training methods. Exporting to Tensorflow- or PyTorch-compatible model formats is one of the main goals, too.
+The journey just begins. A translation to C++, zig and cuda-C is in my mind, for speed comparisons. Implement more classical training methods (esp for nonlinear regression). Exporting to Tensorflow- or PyTorch-compatible model formats is one of the main goals, too.
