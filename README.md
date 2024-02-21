@@ -3,9 +3,9 @@
 Artificial Feedforward Evolutionary/Genetic Neural Network: An Adaptable Model for Test and Learning Purposes in Multi-class Classification or Nonlinear Regression. Evolution-theory and genetic algorithm based learning. Hacking playground and deep dive into the concepts of modern ML and Ai.
 
 ## Motivation
-The goal is to research and better understand the concepts of modern ML, by writing them myself and creating a playground for experimentation. One focus shall then lay in inspection of the later trained model, and trying to find out in what ways a model can be best analyzed, if, at all. I am thinking of writing a kind of visualizer / "debugger" of the trained model's activity when reacting to different inputs. I am curious if multiple (almost "isolatable") "brain regions" will emerge, that trigger specific output labels, or the model's "knowledge" will be completely un-analyzable.  
+The objective is to explore and deepen understanding of contemporary machine learning concepts by implementing them from scratch and establishing a platform for experimentation. One key area of focus will involve analyzing the trained models to determine the most effective methods for assessment, if any. I plan to develop a visualizer or "debugger" to observe the trained model's behavior in response to various inputs. I'm curious to see if distinct "brain regions" will emerge, each triggering specific output labels, or if the model's comprehension will remain opaque.
 
-This is currently replicating lost work of my youth in C ;), and continueing with it. I think the first artificial neural network / evolution theory based learning combination I developed in C++, but not sure anymore.
+Currently, this project involves recreating work I undertook in my youth using C ;), and expanding upon it. While I believe my initial exploration into artificial neural networks and evolution theory-based learning was in C++, I am no longer certain.
 
 ## Status
 - Overall: Pre functional
