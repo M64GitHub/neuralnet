@@ -12,6 +12,8 @@ Currently, this project involves recreating work I undertook in my youth using C
 - Neural net computations: functional
 - Training: /
 - Evolutionary / genetic algorithms: /
+- Visualizing / debugging: /
+- Model Data import / export: /
 
 ## Specification
 Current neuron format:
