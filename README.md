@@ -5,7 +5,7 @@ Artificial Feedforward Evolutionary/Genetic Neural Network: An Adaptable Model f
 ## Motivation
 The objective is to explore and deepen understanding of contemporary machine learning concepts by implementing them from scratch and establishing a platform for experimentation. One key area of focus will involve analyzing the trained models to determine the most effective methods for assessment, if any. I plan to develop a visualizer or "debugger" to observe the trained model's behavior in response to various inputs. I'm curious to see if distinct "brain regions" will emerge, each triggering specific output labels, or if the model's comprehension will remain opaque.
 
-Currently, this project involves recreating work I undertook in my youth using C ;), and expanding upon it. While I believe my initial exploration into artificial neural networks and evolution theory-based learning was in C++, I am no longer certain.
+Currently, this project involves recreating work I undertook in my youth using C, and expanding upon it. While I believe my initial exploration into artificial neural networks and evolution theory-based learning was in C++, I am no longer certain. 
 
 ## Status
 - Overall: Pre functional
