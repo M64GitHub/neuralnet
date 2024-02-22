@@ -60,6 +60,6 @@ The journey just begins. A translation to C++, zig and cuda-C is in my mind, for
 ### Build
 For now:
 ```
-gcc neuralnet.c timing.c -lm --debug -o neuralnet
+gcc neuralnet.c timing.c main.c -lm --debug -o neuralnet
 ```
 
