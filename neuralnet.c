@@ -3,10 +3,11 @@
 // A forward propagation artifical neural network (ANN).
 // Evolution-theory and genetic algorithm based learning.
 // Various activation functions to choose from.
+#include "neuralnet.h"
+#include "timing.h"
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/time.h> // for gettimeofday
 
 // -- CONSTANTS for learning
 // Learning is based on evolution theory.
@@ -15,66 +16,50 @@
 #define PCT_RECOMBINATORS (25)
 // ... and genetic algorithms
 
-// -- structs
-
-// Struct for neuron configuration
-// We make the convention that a neuron always has 1 input more than specified.
-// We choose input 0 for this, and set it's value to 1 on purpose. This way we
-// we further on might have advantages in calculation as we only need to apply
-// the same kind of operation to each input to get the weighted sum, with an
-// added bias that will be represented by weight 0.
-// (And we can work with operating on weights only).
-// 1 * x = x, so it's like adding x to the weighted sum, and we have our bias.
-typedef struct S_Neuron {
-  int num_inputs;     // number of inputs
-  double *weights;    // weights[0] is bias         | Both arrays will have
-  double *input_vals; // (when input_val[0] = 1)    | the size: num_inputs+1
-                      // We need not store them here, because these values are
-                      // read from the outputs of the prev layer's neurons. But
-                      // we do anyways, for easier status display later maybe.
-                      // -> *input_vals must look like: { 1.0, i1, i2, ... in }
-  double output;      // the neuron's output value
-} Neuron;
-
-// Struct for the neural network
-typedef struct S_NeuralNetwork {
-  int num_inputs;  // number of input neurons
-  int num_outputs; // number of output neurons (ie tags, ...)
-
-  int num_h_layers;        // number of hidden layers
-  int neurons_per_h_layer; // neurons per hidden layer
-
-  Neuron *i_layer;   // input layer, 1D array of neurons
-  Neuron *o_layer;   // output layer, 1D array of neurons
-  Neuron **h_layers; // the hidden layers 2D array of neurons, (as we
-                     // use no explicit layer struct/type anyways)
-} NeuralNetwork;
-
 // -- helpers
 
 // Sigmoid activation function
-double sigmoid(double x) { 
-  return 1.0 / (1.0 + exp(-x)); 
+double sigmoid(double x) { return 1.0 / (1.0 + exp(-x)); }
+
+// -- neuron functions
+
+double weightedSum(Neuron *n) {
+  double ws = 0.0;
+
+  for (int i = 0; i < n->num_inputs; i++) {
+    ws += n->input_vals[i] * n->weights[i];
+  }
+
+  return ws;
 }
 
-unsigned long get_timestamp() {
-  struct timeval tv;
-  gettimeofday(&tv, NULL);
-  unsigned long r = 1000000 * tv.tv_sec + tv.tv_usec;
-  return r;
-}
+double processNeuron(Neuron *n) {
+  double ws = weightedSum(n);
+  double output = 0.0;
 
-unsigned long get_duration_since(unsigned long t1) {
-  unsigned long t2 = get_timestamp();
-  return t2 - t1;
+  switch (n->af) {
+  case NN_AF_NONE:
+    break;
+  case NN_AF_SIGMOID:
+    output = sigmoid(ws);
+    break;
+  case NN_AF_RELU:
+    break;
+  default:
+    output = sigmoid(ws);
+  }
+
+  n->output = output;
+  return output;
 }
 
 // -- nn functions
 
 // Function to initialize a neural network
-NeuralNetwork *initializeNetwork(int n_i_neurons, int n_o_neurons,
-                                 int n_hidden_layers,
-                                 int n_neurons_per_hlayer) {
+NeuralNetwork *
+initializeNetwork(int n_i_neurons, int n_o_neurons, int n_hidden_layers,
+                  int n_neurons_per_hlayer,
+                  NN_Activation_Function_ID activation_function_type) {
   NeuralNetwork *network = (NeuralNetwork *)malloc(sizeof(NeuralNetwork));
 
   network->num_inputs = n_i_neurons;
@@ -96,6 +81,7 @@ NeuralNetwork *initializeNetwork(int n_i_neurons, int n_o_neurons,
 
   // input layer: as many neurons as inputs to the network
   for (int i = 0; i < n_i_neurons; i++) {
+    network->i_layer[i].af = activation_function_type;
     network->i_layer[i].num_inputs = 1;
     // input neurons have 1 input (+1 as bias)
     network->i_layer[i].input_vals = (double *)malloc(sizeof(double) * (1 + 1));
@@ -113,6 +99,7 @@ NeuralNetwork *initializeNetwork(int n_i_neurons, int n_o_neurons,
 
   // output layer: as many neurons as specified as network outputs
   for (int o = 0; o < n_o_neurons; o++) {
+    network->o_layer[o].af = activation_function_type;
     network->o_layer[o].num_inputs = n_neurons_per_hlayer;
     // output neurons have as many inputs as hidden layer neurons (+1 as bias)
     network->o_layer[o].input_vals =
@@ -136,6 +123,7 @@ NeuralNetwork *initializeNetwork(int n_i_neurons, int n_o_neurons,
   // hidden layers
   for (int L = 0; L < n_hidden_layers; L++) {
     for (int l = 0; l < n_neurons_per_hlayer; l++) {
+      network->h_layers[L][l].af = activation_function_type;
       network->h_layers[L][l].num_inputs = n_neurons_per_hlayer;
       // neurons have as many inputs as hidden layer neurons (+1 as bias)
       network->h_layers[L][l].input_vals =
@@ -193,17 +181,6 @@ void setInputValues(NeuralNetwork *network, double *inputValues) {
   }
 }
 
-// function
-double weightedSum(Neuron *n) {
-  double o = 0.0;
-
-  for (int i = 0; i < n->num_inputs; i++) {
-    o += n->input_vals[i] * n->weights[i];
-  }
-
-  return o;
-}
-
 // Function for forward propagation to calculate the output of the network
 void forwardPropagation(NeuralNetwork *network) {
   // [1] We assume input values have been set: in the input_vals of the
@@ -236,45 +213,41 @@ void forwardPropagation(NeuralNetwork *network) {
   // sum and call the activation function. this is the output of each output
   // neuron.
 
-  double ws = 0.0;
-  double o = 0.0;
   // for all input neurons
   for (int i = 0; i < network->num_inputs; i++) {
-    ws = weightedSum(&network->i_layer[i]);
-    o = sigmoid(ws);
-    network->i_layer[i].output = o;
+    Neuron *neuron = &network->i_layer[i];
+    processNeuron(neuron);
+    // forward to hidden layer
     for (int h = 0; h < network->neurons_per_h_layer; h++) {
-      network->h_layers[0][h].input_vals[i + 1] = o;
+      network->h_layers[0][h].input_vals[i + 1] = neuron->output;
     }
   }
 
   // hidden layers
   for (int L = 0; L < network->num_h_layers; L++) {
     for (int h = 0; h < network->neurons_per_h_layer; h++) {
-      ws = weightedSum(&network->h_layers[L][h]);
-      o = sigmoid(ws);
-      network->h_layers[L][h].output = o;
+      Neuron *neuron = &network->h_layers[L][h];
+      processNeuron(neuron);
 
       // store in next layer or output layer
-      if(L < (network->num_h_layers - 1)) {
+      if (L < (network->num_h_layers - 1)) {
         // store in next layer
         for (int l = 0; l < network->neurons_per_h_layer; l++) {
-          network->h_layers[L + 1][l].input_vals[h + 1] = o;
+          network->h_layers[L + 1][l].input_vals[h + 1] = neuron->output;
         }
       } else {
         // store in output layer
         for (int l = 0; l < network->num_outputs; l++) {
-          network->o_layer[l].input_vals[h + 1] = o;
+          network->o_layer[l].input_vals[h + 1] = neuron->output;
         }
       } // store in hidden or output layer
-    } // h
-  }   // L
+    }   // h
+  }     // L
 
   // output layer: for all output neurons
   for (int n = 0; n < network->num_outputs; n++) {
-    ws = weightedSum(&network->o_layer[n]);
-    o = sigmoid(ws);
-    network->o_layer[n].output = o;
+    Neuron *neuron = &network->o_layer[n];
+    processNeuron(neuron);
   }
 }
 
@@ -353,7 +326,7 @@ int main() {
 
   ts1 = get_timestamp();
   // 2 inputs, 1 output, 1 hidden layer, layer size: 3
-  NeuralNetwork *network = initializeNetwork(2, 1, 2, 3);
+  NeuralNetwork *network = initializeNetwork(2, 1, 2, 3, NN_AF_SIGMOID);
   printf(" * initialization took: %lu usecs\n", get_duration_since(ts1));
 
   double i_vals[] = {0.1, 0.2};
