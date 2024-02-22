@@ -5,7 +5,9 @@ Artificial Feedforward Evolutionary/Genetic Neural Network: An Adaptable Model f
 ## Motivation
 The objective is to explore and deepen understanding of contemporary machine learning concepts by implementing them from scratch and establishing a platform for experimentation. One key area of focus will involve analyzing the trained models to determine the most effective methods for assessment, if any. I plan to develop a visualizer or "debugger" to observe the trained model's behavior in response to various inputs. I'm curious to see if distinct "brain regions" will emerge, each triggering specific output labels, or if the model's comprehension will remain opaque.
 
-Currently, this project involves recreating work I undertook in my youth using C, and expanding upon it. While I believe my initial exploration into artificial neural networks and evolution theory-based learning was in C++, I am no longer certain. 
+#### Why C?
+Currently, this project involves recreating work I undertook in my youth using C++, and expanding upon it. I opted for C at this time because it facilitates future translation, such as converting the code into CUDA kernels and utilizing the existing structs as they are. Additionally, the C code can be readily translated into C++ classes. Furthermore, translating it to Zig is likely easier than starting from a C++ code base.
+
 
 ## Status
 - Overall: Pre functional
@@ -14,6 +16,7 @@ Currently, this project involves recreating work I undertook in my youth using C
 - Evolutionary / genetic algorithms: /
 - Visualizing / debugging: /
 - Model Data import / export: /
+- Add optional convolutional layer type, filters, pooling
 
 ## Specification
 Current neuron format:
@@ -21,6 +24,7 @@ Current neuron format:
  - inputs[]
  - weights[]
  - output
+ - type of activation function
 
 Current model format:
  - number of inputs (input neurons, each w/ 1 input)
@@ -30,6 +34,7 @@ Current model format:
  - input layer
  - hidden layers[]
  - output layer
+ - type of activation functions for all neurons
 
 The structure of the final model is dynamically created, derived from the net's "number of ..." parameters.
 
