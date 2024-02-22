@@ -22,6 +22,7 @@ Current neuron format:
  - inputs[]
  - weights[]
  - output
+ - type of activation function
 
 Current model format:
  - number of inputs (input neurons, each w/ 1 input)
@@ -31,6 +32,7 @@ Current model format:
  - input layer
  - hidden layers[]
  - output layer
+ - type of activation functions for all neurons
 
 The structure of the final model is dynamically created, derived from the net's "number of ..." parameters.
 
