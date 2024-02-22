@@ -50,14 +50,25 @@ typedef struct S_NeuralNetwork {
 } NeuralNetwork;
 
 // -- activation functions
-
 double sigmoid(double x);
 
 // -- neuron functions
-
-
-
+double weightedSum(Neuron *n);
+double processNeuron(Neuron *n);
+void dumpNeuron(Neuron *neuron);
 
 // -- neural net functions
+NeuralNetwork *
+initializeNetwork(int n_i_neurons, int n_o_neurons, int n_hidden_layers,
+                  int n_neurons_per_hlayer,
+                  NN_Activation_Function_ID activation_function_type);
+
+void freeNetwork(NeuralNetwork *network);
+
+void setInputValues(NeuralNetwork *network, double *inputValues);
+
+void forwardPropagation(NeuralNetwork *network);
+
+void dumpNetwork(NeuralNetwork *network);
 
 #endif
