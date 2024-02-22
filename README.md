@@ -14,7 +14,7 @@ Currently, this project involves recreating work I undertook in my youth using C
 - Evolutionary / genetic algorithms: /
 - Visualizing / debugging: /
 - Model Data import / export: /
-- Add optional convolutional layer type
+- Add optional convolutional layer type, pooling
 
 ## Specification
 Current neuron format:
