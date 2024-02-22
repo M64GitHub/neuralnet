@@ -7,9 +7,9 @@
 // Various activation functions to choose from.
 
 typedef enum {
-  NN_AF_SIGMOID,
-  NN_AF_RELU,
   NN_AF_NONE,
+  NN_AF_SIGMOID,
+  NN_AF_RELU
 } NN_Activation_Function_ID;
 
 // -- structs
@@ -52,5 +52,12 @@ typedef struct S_NeuralNetwork {
 // -- activation functions
 
 double sigmoid(double x);
+
+// -- neuron functions
+
+
+
+
+// -- neural net functions
 
 #endif
