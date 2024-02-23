@@ -25,6 +25,7 @@ Current neuron format:
  - weights[]
  - output
  - type of activation function
+weights[0] represents the bias.
 
 Current model format:
  - number of inputs (input neurons, each w/ 1 input)
