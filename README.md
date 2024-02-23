@@ -20,6 +20,7 @@ Currently, this project involves recreating work I undertook in my youth using C
 
 ## Specification
 I opted for a format, where I bind the connection weights to their "end point", into the structure of the connected neuron on the receivers end. It is the neuron that processes the signal through it's activation function, so it made sense for me to store it there. As a consequence, I do not have a specific "layer structure", layers are defined as linear flat arrays of neurons.
+Also I wanted to be able to have all elements for calculations in one place. So I chose to store a neuron's connection input also directly in the receivers neuron structure, additional to the input weights. Hence I have all parameters for calculating a neuron's output in one place, the neuron itself I am currently looking at.
 
 Current neuron format:
  - number of inputs
