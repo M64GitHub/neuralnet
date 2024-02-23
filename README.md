@@ -12,9 +12,10 @@ Currently, this project involves recreating work I undertook in my youth using C
 ## Status
 - Overall: Pre functional
 - Neural net computations: functional
-- Training: /
+- Training: in progress
 - Evolutionary / genetic algorithms: in progress
-- Visualizing / debugging: /
+- Visualizing: in progress
+- Debugging: /
 - Model Data import / export: /
 - Add optional convolutional layer type, filters, pooling: /
 
