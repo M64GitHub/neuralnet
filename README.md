@@ -13,10 +13,10 @@ Currently, this project involves recreating work I undertook in my youth using C
 - Overall: Pre functional
 - Neural net computations: functional
 - Training: /
-- Evolutionary / genetic algorithms: /
+- Evolutionary / genetic algorithms: in progress
 - Visualizing / debugging: /
 - Model Data import / export: /
-- Add optional convolutional layer type, filters, pooling
+- Add optional convolutional layer type, filters, pooling: /
 
 ## Specification
 Current neuron format:
@@ -45,7 +45,7 @@ The structure of the final model is dynamically created, derived from the net's 
  - setInputValues(double[]) ... OK
  - dump functions for Neuron, NeuralNetwork ... OK
  - forwardPropagation(NeuralNetwork *) ... OK
- - learning process based on evolution- and genetic algorithms ...
+ - learning process based on evolution- and genetic algorithms ... in progress
  - progress visualisation ...
  - export to any industry standard TensorFlow/Torch ...
    
