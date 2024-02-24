@@ -12,7 +12,6 @@ int main() {
   printf(" * initialization took: %lu usecs\n", get_duration_since(ts1));
 
   double i_vals[] = {0.1, 0.2};
-
   ts1 = get_timestamp();
   setInputValues(network, i_vals);
   printf(" * set input vals took: %lu usecs\n", get_duration_since(ts1));

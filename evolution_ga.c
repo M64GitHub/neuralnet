@@ -1,8 +1,7 @@
 #include "evolution_ga.h"
 #include <stdlib.h>
 
-Individual *
-initializeIndividual(NeuralNetwork *network) {
+Individual *initializeIndividual(NeuralNetwork *network) {
   Individual *individual;
   individual = (Individual *)malloc(sizeof(Individual));
 
@@ -32,6 +31,4 @@ void freeWorld(World *W) {}
 void mutate(){};
 
 void runPopulation(){};
-void evolutePopulation(){}
-
-
+void evolutePopulation() {}
