@@ -50,3 +50,5 @@ void freeWorld(World *W);
 void mutate();
 void runPopulation(); // 1 run ff
 void evolutePopulation();
+
+#endif
