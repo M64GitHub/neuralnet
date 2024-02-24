@@ -2,17 +2,13 @@
 #include <stdlib.h>
 
 Individual *
-initializeIndividual(int n_i_neurons, int n_o_neurons, int n_hidden_layers,
-                     int n_neurons_per_hlayer,
-                     NN_Activation_Function_ID activation_function_type) {
+initializeIndividual(NeuralNetwork *network) {
   Individual *individual;
   individual = (Individual *)malloc(sizeof(Individual));
 
   individual->age = 0;
   individual->fitness = 1;
-  individual->network =
-      initializeNetwork(n_i_neurons, n_o_neurons, n_hidden_layers,
-                        n_neurons_per_hlayer, activation_function_type);
+  individual->network = network;
 
   return individual;
 }
@@ -30,3 +26,12 @@ World *initializeWorld(int pop_size, double mut_rate_ind, double mut_rate,
 }
 
 void freeWorld(World *W) {}
+
+// --
+
+void mutate(){};
+
+void runPopulation(){};
+void evolutePopulation(){}
+
+

@@ -33,10 +33,7 @@ typedef struct S_World {
 
 // --
 
-Individual *
-initializeIndividual(int n_i_neurons, int n_o_neurons, int n_hidden_layers,
-                     int n_neurons_per_hlayer,
-                     NN_Activation_Function_ID activation_function_type);
+Individual *initializeIndividual(NeuralNetwork *network);
 void freeIndividual(Individual *I);
 
 Population *initializePopulation(int pop_size);
@@ -48,4 +45,8 @@ World *initializeWorld(int pop_size, double mut_rate_ind, double mut_rate,
 
 void freeWorld(World *W);
 
-#endif
+// --
+
+void mutate();
+void runPopulation(); // 1 run ff
+void evolutePopulation();
