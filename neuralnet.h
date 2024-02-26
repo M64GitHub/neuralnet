@@ -6,6 +6,10 @@
 // Evolution-theory and genetic algorithm based learning.
 // Various activation functions to choose from.
 
+// -- type definitions
+
+// -- enums
+
 typedef enum {
   NN_AF_NONE,
   NN_AF_SIGMOID,
@@ -46,16 +50,19 @@ typedef struct S_NeuralNetwork {
   Neuron *o_layer;   // output layer, 1D array of neurons
   Neuron **h_layers; // the hidden layers 2D array of neurons, (as we
                      // use no explicit layer struct/type anyways)
+                     // [num_h_layers][neurons_per_h_layer]
   NN_Activation_Function_ID activation_function_id;
 } NeuralNetwork;
 
 // -- activation functions
 double sigmoid(double x);
+double relU(double x);
 
 // -- neuron functions
 double weightedSum(Neuron *n);
 double processNeuron(Neuron *n);
 void dumpNeuron(Neuron *neuron);
+void dumpNeuron_raw(Neuron *neuron);
 
 // -- neural net functions
 NeuralNetwork *
@@ -70,5 +77,6 @@ void setInputValues(NeuralNetwork *network, double *inputValues);
 void forwardPropagation(NeuralNetwork *network);
 
 void dumpNetwork(NeuralNetwork *network);
+void dumpNetwork_raw(NeuralNetwork *network);
 
 #endif

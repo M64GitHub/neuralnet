@@ -14,15 +14,16 @@
 // Sigmoid activation function
 double sigmoid(double x) { return 1.0 / (1.0 + exp(-x)); }
 
+// relU activation function
+double relU(double x) { return (x <= 0.0) ? 0.0 : x; }
+
 // -- neuron functions
 
 double weightedSum(Neuron *n) {
   double ws = 0.0;
-
   for (int i = 0; i < n->num_inputs; i++) {
     ws += n->input_vals[i] * n->weights[i];
   }
-
   return ws;
 }
 
@@ -32,14 +33,19 @@ double processNeuron(Neuron *n) {
 
   switch (n->af) {
   case NN_AF_NONE:
+    output = ws;
     break;
   case NN_AF_SIGMOID:
-    output = sigmoid(ws);
+    // output = sigmoid(ws);
+    output = 1.0 / (1.0 + exp(-ws));
     break;
   case NN_AF_RELU:
+    // output = relU(ws);
+    output = (ws <= 0.0) ? 0.0 : ws;
     break;
   default:
-    output = sigmoid(ws);
+    // output = relU(ws);
+    output = (ws <= 0.0) ? 0.0 : ws;
   }
 
   n->output = output;
@@ -55,24 +61,25 @@ initializeNetwork(int n_i_neurons, int n_o_neurons, int n_hidden_layers,
                   NN_Activation_Function_ID activation_function_type) {
   NeuralNetwork *network = (NeuralNetwork *)malloc(sizeof(NeuralNetwork));
 
+  // -- set nn layout specs
   network->num_inputs = n_i_neurons;
   network->num_outputs = n_o_neurons;
   network->num_h_layers = n_hidden_layers;
   network->neurons_per_h_layer = n_neurons_per_hlayer;
 
-  // Allocate memory for neurons / layers
+  // -- allocate memory for layers
   network->i_layer = (Neuron *)malloc(sizeof(Neuron) * n_i_neurons);
   network->o_layer = (Neuron *)malloc(sizeof(Neuron) * n_o_neurons);
-
   network->h_layers = (Neuron **)malloc(sizeof(Neuron *) * n_hidden_layers);
   for (int L = 0; L < n_hidden_layers; L++) {
     network->h_layers[L] =
         (Neuron *)malloc(sizeof(Neuron) * n_neurons_per_hlayer);
   }
 
-  // Init neurons (set bias input to 1, all else to 0)
+  // -- init neurons (set bias input to 1, all else to 0), all
 
   // input layer: as many neurons as inputs to the network
+  // input neuron: 1 input
   for (int i = 0; i < n_i_neurons; i++) {
     network->i_layer[i].af = activation_function_type;
     network->i_layer[i].num_inputs = 1;
@@ -87,10 +94,11 @@ initializeNetwork(int n_i_neurons, int n_o_neurons, int n_hidden_layers,
     network->i_layer[i].input_vals[1] = 0.0; // input neuron input = 0
     network->i_layer[i].weights[1] = 0.0;    // input neuron weight = 0
 
-    network->i_layer[i].output = 0.0; // input neuron output = 0
-  }                                   // i, input layer neuron number
+    network->i_layer[i].output = i; // input neuron output = 0
+  }                                 // i, input layer neuron number
 
   // output layer: as many neurons as specified as network outputs
+  // output neuron: # of inputs = #of previous layer's neurons
   for (int o = 0; o < n_o_neurons; o++) {
     network->o_layer[o].af = activation_function_type;
     network->o_layer[o].num_inputs = n_neurons_per_hlayer;
@@ -110,11 +118,35 @@ initializeNetwork(int n_i_neurons, int n_o_neurons, int n_hidden_layers,
       network->o_layer[o].weights[i] = 0.0;    // output neuron weight = 0
     }
 
-    network->o_layer[o].output = 0.0; // output neuron output = 0
-  }                                   // o, output layer neuron number
+    // network->o_layer[o].output = 0.0; // output neuron output = 0
+    network->o_layer[o].output = o; // output neuron output = 0
+  }                                 // o, output layer neuron number
 
   // hidden layers
-  for (int L = 0; L < n_hidden_layers; L++) {
+  // hidden Layer 0
+  for (int l = 0; l < n_neurons_per_hlayer; l++) {
+    network->h_layers[0][l].af = activation_function_type;
+    network->h_layers[0][l].num_inputs = n_i_neurons;
+    // neurons have as many inputs as hidden layer neurons (+1 as bias)
+    network->h_layers[0][l].input_vals =
+        (double *)malloc(sizeof(double) * (n_i_neurons + 1));
+    network->h_layers[0][l].weights =
+        (double *)malloc(sizeof(double) * (n_i_neurons + 1));
+
+    // init neuron's bias to 0
+    network->h_layers[0][l].input_vals[0] = 1.0; // fixed bias multiplicator 1
+    network->h_layers[0][l].weights[0] = 0.0;    // bias = 0
+
+    // init neuron's weights, values to 0
+    for (int i = 1; i < (n_i_neurons + 1); i++) {
+      network->h_layers[0][l].input_vals[i] = 0.0; // neuron input = 0
+      network->h_layers[0][l].weights[i] = 0.0;    // neuron weight = 0
+    }
+
+    network->h_layers[0][l].output = l; // neuron output = 0
+  }
+
+  for (int L = 1; L < n_hidden_layers; L++) {
     for (int l = 0; l < n_neurons_per_hlayer; l++) {
       network->h_layers[L][l].af = activation_function_type;
       network->h_layers[L][l].num_inputs = n_neurons_per_hlayer;
@@ -134,9 +166,9 @@ initializeNetwork(int n_i_neurons, int n_o_neurons, int n_hidden_layers,
         network->h_layers[L][l].weights[i] = 0.0;    // neuron weight = 0
       }
 
-      network->h_layers[L][l].output = 0.0; // neuron output = 0
-    }                                       // l, hidden layer neuron number
-  }                                         // L, layer number
+      network->h_layers[L][l].output = l; // neuron output = 0
+    }                                     // l, hidden layer neuron number
+  }                                       // L, layer number
 
   return network;
 }
@@ -146,11 +178,6 @@ void freeNetwork(NeuralNetwork *network) {
   for (int i = 0; i < network->num_inputs; i++) {
     free(network->i_layer[i].input_vals);
     free(network->i_layer[i].weights);
-  }
-
-  for (int o = 0; o < network->num_outputs; o++) {
-    free(network->o_layer[o].input_vals);
-    free(network->o_layer[o].weights);
   }
 
   // hidden layers
@@ -164,6 +191,12 @@ void freeNetwork(NeuralNetwork *network) {
     free(network->h_layers[L]);
   }
   free(network->h_layers);
+
+  for (int o = 0; o < network->num_outputs; o++) {
+    Neuron n = network->o_layer[o];
+    free(n.input_vals);
+    free(n.weights);
+  }
 }
 
 // Function to set input values for the input layer
@@ -312,4 +345,3 @@ void dumpNetwork(NeuralNetwork *network) {
   }
   printf("}\n");
 }
-
