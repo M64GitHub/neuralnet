@@ -61,7 +61,7 @@ The structure of the final model is dynamically created, derived from the net's 
 
 ## Outlook
 
-The journey just begins. A translation zig, ROCm and CUDA-C is in my mind, for speed comparisons. Implement more classical training methods (esp for nonlinear regression). Exporting to Tensorflow- or PyTorch-compatible model formats is one of the main goals, too.
+The journey just begins. A translation to zig, ROCm and CUDA-C is on my mind, for speed comparisons. Implement more classical training methods (esp for nonlinear regression). Exporting to Tensorflow- or PyTorch-compatible model formats is one of the main goals, too.
 
 ### Build
 For now:
