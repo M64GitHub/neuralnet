@@ -241,7 +241,7 @@ void forwardPropagation(NeuralNetwork *network) {
 
   // for all input neurons
   for (int i = 0; i < network->num_inputs; i++) {
-    Neuron *neuron = &network->i_layer[i];
+    Neuron *neuron = &network->i_layer[i]; // tmp var for debugging
     processNeuron(neuron);
     // forward to hidden layer
     for (int h = 0; h < network->neurons_per_h_layer; h++) {
@@ -272,7 +272,7 @@ void forwardPropagation(NeuralNetwork *network) {
 
   // output layer: for all output neurons
   for (int n = 0; n < network->num_outputs; n++) {
-    Neuron *neuron = &network->o_layer[n];
+    Neuron *neuron = &network->o_layer[n]; // create a tmp var for debging
     processNeuron(neuron);
   }
 }
