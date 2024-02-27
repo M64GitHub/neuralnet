@@ -12,14 +12,14 @@
 // -- activation functions
 
 // Sigmoid activation function
-double sigmoid(double x) { return 1.0 / (1.0 + exp(-x)); }
+double NN_af_sigmoid(double x) { return 1.0 / (1.0 + exp(-x)); }
 
 // relU activation function
-double relU(double x) { return (x <= 0.0) ? 0.0 : x; }
+double NN_af_relU(double x) { return (x <= 0.0) ? 0.0 : x; }
 
 // -- neuron functions
 
-double weightedSum(Neuron *n) {
+double NN_Neuron_weightedsum(Neuron *n) {
   double ws = 0.0;
   for (int i = 0; i < n->num_inputs; i++) {
     ws += n->input_vals[i] * n->weights[i];
@@ -27,8 +27,8 @@ double weightedSum(Neuron *n) {
   return ws;
 }
 
-double processNeuron(Neuron *n) {
-  double ws = weightedSum(n);
+double NN_Neuron_process(Neuron *n) {
+  double ws = NN_Neuron_weightedsum(n);
   double output = 0.0;
 
   switch (n->af) {
@@ -56,9 +56,9 @@ double processNeuron(Neuron *n) {
 
 // Function to initialize a neural network
 NeuralNetwork *
-initializeNetwork(int n_i_neurons, int n_o_neurons, int n_hidden_layers,
-                  int n_neurons_per_hlayer,
-                  NN_Activation_Function_ID activation_function_type) {
+NN_Network_initialize(int n_i_neurons, int n_o_neurons, int n_hidden_layers,
+                      int n_neurons_per_hlayer,
+                      NN_Activation_Function_ID activation_function_type) {
   NeuralNetwork *network = (NeuralNetwork *)malloc(sizeof(NeuralNetwork));
 
   // -- set nn layout specs
@@ -174,7 +174,7 @@ initializeNetwork(int n_i_neurons, int n_o_neurons, int n_hidden_layers,
 }
 
 // Function to free memory allocated for the neural network
-void freeNetwork(NeuralNetwork *network) {
+void NN_Network_free(NeuralNetwork *network) {
   for (int i = 0; i < network->num_inputs; i++) {
     free(network->i_layer[i].input_vals);
     free(network->i_layer[i].weights);
@@ -200,7 +200,7 @@ void freeNetwork(NeuralNetwork *network) {
 }
 
 // Function to set input values for the input layer
-void setInputValues(NeuralNetwork *network, double *inputValues) {
+void NN_Network_input_values_set(NeuralNetwork *network, double *inputValues) {
   for (int i = 0; i < network->num_inputs; i++) {
     // ...[0] = bias;
     network->i_layer[i].input_vals[1] = inputValues[i];
@@ -208,7 +208,7 @@ void setInputValues(NeuralNetwork *network, double *inputValues) {
 }
 
 // Function for forward propagation to calculate the output of the network
-void forwardPropagation(NeuralNetwork *network) {
+void NN_Network_propagate_forward(NeuralNetwork *network) {
   // [1] We assume input values have been set: in the input_vals of the
   // neurons in the i_layer neurons (ni->input_vals[1]).
   //
@@ -242,7 +242,7 @@ void forwardPropagation(NeuralNetwork *network) {
   // for all input neurons
   for (int i = 0; i < network->num_inputs; i++) {
     Neuron *neuron = &network->i_layer[i]; // tmp var for debugging
-    processNeuron(neuron);
+    NN_Neuron_process(neuron);
     // forward to hidden layer
     for (int h = 0; h < network->neurons_per_h_layer; h++) {
       network->h_layers[0][h].input_vals[i + 1] = neuron->output;
@@ -253,7 +253,7 @@ void forwardPropagation(NeuralNetwork *network) {
   for (int L = 0; L < network->num_h_layers; L++) {
     for (int h = 0; h < network->neurons_per_h_layer; h++) {
       Neuron *neuron = &network->h_layers[L][h];
-      processNeuron(neuron);
+      NN_Neuron_process(neuron);
 
       // store in next layer or output layer
       if (L < (network->num_h_layers - 1)) {
@@ -273,11 +273,11 @@ void forwardPropagation(NeuralNetwork *network) {
   // output layer: for all output neurons
   for (int n = 0; n < network->num_outputs; n++) {
     Neuron *neuron = &network->o_layer[n]; // create a tmp var for debging
-    processNeuron(neuron);
+    NN_Neuron_process(neuron);
   }
 }
 
-void dumpNeuron(Neuron *neuron) {
+void NN_Neuron_dump(Neuron *neuron) {
   Neuron n = *neuron;
   // inputs
   printf("i{");
@@ -304,8 +304,8 @@ void dumpNeuron(Neuron *neuron) {
   printf("o:%.2f}", n.output);
 }
 
-// Function to dump values of an nn
-void dumpNetwork(NeuralNetwork *network) {
+// Function to dump values of a nn
+void NN_Network_dump(NeuralNetwork *network) {
   printf("dumping network %p: #i:%d, #o:%d, #L:%d Lsz:%d\n", network,
          network->num_inputs, network->num_outputs, network->num_h_layers,
          network->neurons_per_h_layer);
@@ -315,7 +315,7 @@ void dumpNetwork(NeuralNetwork *network) {
   for (int i = 0; i < network->num_inputs; i++) {
     // printf("%f", network->i_layer[i].input_vals[1]); // 0 is bias
     printf("N%d:", i);
-    dumpNeuron(&network->i_layer[i]);
+    NN_Neuron_dump(&network->i_layer[i]);
     if (i < (network->num_inputs - 1))
       printf(", ");
   }
@@ -327,7 +327,7 @@ void dumpNetwork(NeuralNetwork *network) {
     for (int l = 0; l < network->neurons_per_h_layer; l++) {
       printf("N%d:", l);
       Neuron n = network->h_layers[L][l];
-      dumpNeuron(&n);
+      NN_Neuron_dump(&n);
       if (l < (network->neurons_per_h_layer - 1))
         printf(", ");
     }
@@ -339,7 +339,7 @@ void dumpNetwork(NeuralNetwork *network) {
   for (int o = 0; o < network->num_outputs; o++) {
     // printf("%.2f", network->o_layer[o].output); // 0 is bias
     printf("N%d:", o);
-    dumpNeuron(&network->o_layer[o]);
+    NN_Neuron_dump(&network->o_layer[o]);
     if (o < (network->num_outputs - 1))
       printf(", ");
   }

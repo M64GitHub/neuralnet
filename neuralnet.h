@@ -55,28 +55,22 @@ typedef struct S_NeuralNetwork {
 } NeuralNetwork;
 
 // -- activation functions
-double sigmoid(double x);
-double relU(double x);
+double NN_af_sigmoid(double x);
+double NN_af_relU(double x);
 
 // -- neuron functions
-double weightedSum(Neuron *n);
-double processNeuron(Neuron *n);
-void dumpNeuron(Neuron *neuron);
-void dumpNeuron_raw(Neuron *neuron);
+double NN_Neuron_weightedsum(Neuron *n);
+double NN_Neuron_process(Neuron *n);
+void NN_Neuron_dump(Neuron *neuron);
 
 // -- neural net functions
 NeuralNetwork *
-initializeNetwork(int n_i_neurons, int n_o_neurons, int n_hidden_layers,
-                  int n_neurons_per_hlayer,
-                  NN_Activation_Function_ID activation_function_type);
-
-void freeNetwork(NeuralNetwork *network);
-
-void setInputValues(NeuralNetwork *network, double *inputValues);
-
-void forwardPropagation(NeuralNetwork *network);
-
-void dumpNetwork(NeuralNetwork *network);
-void dumpNetwork_raw(NeuralNetwork *network);
+NN_Network_initialize(int n_i_neurons, int n_o_neurons, int n_hidden_layers,
+                      int n_neurons_per_hlayer,
+                      NN_Activation_Function_ID activation_function_type);
+void NN_Network_free(NeuralNetwork *network);
+void NN_Network_input_values_set(NeuralNetwork *network, double *inputValues);
+void NN_Network_propagate_forward(NeuralNetwork *network);
+void NN_Network_dump(NeuralNetwork *network);
 
 #endif

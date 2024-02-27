@@ -30,7 +30,7 @@ typedef struct S_World {
   double selection_pressure; // how many parents need to be chosen from the best
                              // (fittest) individuals
   double crossover_rate;     // how many individuals will be selected as parents
-  Population **populations;   // list of ptrs
+  Population **populations;  // list of ptrs
   int num_populations;
 
   NeuralNetwork *reference_network;
@@ -38,24 +38,26 @@ typedef struct S_World {
 
 // --
 
-Individual *initializeIndividual(NeuralNetwork *network);
-void freeIndividual(Individual *I);
+Individual *NN_Individual_initialize(NeuralNetwork *network);
+void NN_Individual_free(Individual *I);
 
-Population *initializePopulation(int pop_size, NeuralNetwork *ref_nw);
-void freePopulation(Population *P);
+// --
 
-World *initializeWorld(
+Population *NN_Population_initialize(int pop_size, NeuralNetwork *ref_nw);
+void NN_Population_free(Population *P);
+
+// --
+
+World *NN_World_initialize(
     int pop_size, double mut_rate_ind, double mut_rate, double mut_amnt,
     double sel_pressure, double crossovr_rt, int num_populations,
     NeuralNetwork
         *reference_network); // will be passed down to population to individual
 
-void freeWorld(World *W);
+void NN_World_free(World *W);
 
 // --
 
-void mutate();
-void runPopulation(); // 1 run ff
-void evolutePopulation();
+void NN_World_fill_rand(World *w);
 
 #endif
