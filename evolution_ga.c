@@ -61,7 +61,11 @@ World *initializeWorld(int pop_size, double mut_rate_ind, double mut_rate,
   w->crossover_rate = crossovr_rt;
   w->num_populations = num_populations;
   // Create Populations
-  w->populations = (Population *)malloc((sizeof(Population)) * num_populations);
+  w->populations = (Population **)malloc((sizeof(Population *)) * num_populations);
+
+  for (int i = 0; i < num_populations; i++)
+    w->populations[i] = initializePopulation(pop_size, ref_nw);
+  
   w->reference_network = ref_nw;
 
   return w;
@@ -72,7 +76,8 @@ void freeWorld(World *W) {
     return;
 
   for (int i = 0; i < W->num_populations; i++)
-    freePopulation(&(W->populations[i]));
+    freePopulation((W->populations[i]));
+  free(W->populations);
   
   if (W->reference_network)
     freeNetwork(W->reference_network);

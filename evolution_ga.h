@@ -30,7 +30,7 @@ typedef struct S_World {
   double selection_pressure; // how many parents need to be chosen from the best
                              // (fittest) individuals
   double crossover_rate;     // how many individuals will be selected as parents
-  Population *populations;   // 1 pop for now
+  Population **populations;   // list of ptrs
   int num_populations;
 
   NeuralNetwork *reference_network;
