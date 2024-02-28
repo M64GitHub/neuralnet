@@ -8,6 +8,7 @@ int main() {
 
   // 2 inputs, 1 output, 1 hidden layer, layer size: 3, relU
   NeuralNetwork *network = NN_Network_initialize(2, 1, 4, 10, NN_AF_RELU);
+  // NN_Network_input_values_set(network, (double[]){2.0, 3.0});
 
   ts1 = get_timestamp();
   // potential values for MNIST

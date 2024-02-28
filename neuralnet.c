@@ -21,7 +21,7 @@ double NN_af_relU(double x) { return (x <= 0.0) ? 0.0 : x; }
 
 double NN_Neuron_weightedsum(Neuron *n) {
   double ws = 0.0;
-  for (int i = 0; i < n->num_inputs; i++) {
+  for (int i = 0; i < n->num_inputs+1; i++) {
     ws += n->input_vals[i] * n->weights[i];
   }
   return ws;
