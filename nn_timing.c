@@ -1,6 +1,6 @@
 // artifical neural network for test and learning purposes. 2024, M64 Schallner
 // <mario.a.schallner@gmail.com>
-#include "timing.h"
+#include "nn_timing.h"
 
 unsigned long get_timestamp() {
   struct timeval tv;

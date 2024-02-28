@@ -1,7 +1,7 @@
 #ifndef __EVOLUTION_GA_H__
 #define __EVOLUTION_GA_H__
 
-#include "neuralnet.h"
+#include "nn_neuralnet.h"
 
 typedef struct S_Individual {
   NeuralNetwork *network;

@@ -3,8 +3,8 @@
 // A forward propagation artifical neural network (ANN).
 // Evolution-theory and genetic algorithm based learning.
 // Various activation functions to choose from.
-#include "neuralnet.h"
-#include "timing.h"
+#include "nn_neuralnet.h"
+#include "nn_timing.h"
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>

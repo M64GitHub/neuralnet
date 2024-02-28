@@ -1,5 +1,5 @@
-#include "neuralnet.h"
-#include "timing.h"
+#include "nn_neuralnet.h"
+#include "nn_timing.h"
 #include <stdio.h>
 
 int main() {

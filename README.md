@@ -66,6 +66,6 @@ The journey just begins. A translation to zig, ROCm and CUDA-C is on my mind, fo
 ### Build
 For now:
 ```
-gcc neuralnet.c evolution_ga.c timing.c main.c -lm --debug -Ofast -o neuralnet 
+gcc nn_neuralnet.c nn_evolution_ga.c nn_timing.c main.c -lm --debug -Ofast -Wall -o neuralnet
 ```
 

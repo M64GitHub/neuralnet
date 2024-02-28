@@ -1,4 +1,4 @@
-#include "evolution_ga.h"
+#include "nn_evolution_ga.h"
 #include <stdlib.h>
 
 Individual *NN_Individual_initialize(NeuralNetwork *reference_network) {
@@ -50,9 +50,9 @@ void NN_Population_free(Population *P) {
 
 // Creates and returns initialized World
 World *NN_World_initialize(int pop_size, double mut_rate_ind, double mut_rate,
-                          double mut_amnt, double sel_pressure,
-                          double crossovr_rt, int num_populations,
-                          NeuralNetwork *ref_nw) {
+                           double mut_amnt, double sel_pressure,
+                           double crossovr_rt, int num_populations,
+                           NeuralNetwork *ref_nw) {
   World *w = (World *)malloc((sizeof(World)));
 
   w->population_size = pop_size;
@@ -88,5 +88,4 @@ void NN_World_free(World *W) {
   free(W);
 }
 
-void NN_World_fill_rand(World *w) {
-}
+void NN_World_fill_rand(World *w) {}
