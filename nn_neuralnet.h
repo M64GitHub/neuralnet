@@ -4,7 +4,6 @@
 // <mario.a.schallner@gmail.com>
 // A forward propagation artifical neural network (ANN).
 // Evolution-theory and genetic algorithm based learning.
-// Various activation functions to choose from.
 
 // -- type definitions
 

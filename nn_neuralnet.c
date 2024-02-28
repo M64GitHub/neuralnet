@@ -2,7 +2,7 @@
 // <mario.a.schallner@gmail.com>
 // A forward propagation artifical neural network (ANN).
 // Evolution-theory and genetic algorithm based learning.
-// Various activation functions to choose from.
+
 #include "nn_neuralnet.h"
 #include "nn_timing.h"
 #include <math.h>
@@ -42,15 +42,15 @@ double NN_Neuron_process(Neuron *n) {
     break;
   case NN_AF_SIGMOID:
     // output = sigmoid(ws);
-    output = 1.0 / (1.0 + exp(-ws)); // inlined for speed
+    output = 1.0 / (1.0 + exp(-ws)); // sigmoid inlined for speed
     break;
   case NN_AF_RELU:
     // output = relU(ws);
-    output = (ws <= 0.0) ? 0.0 : ws; // inlined for speed
+    output = (ws <= 0.0) ? 0.0 : ws; // relU inlined for speed
     break;
   default:
     // output = relU(ws);
-    output = (ws <= 0.0) ? 0.0 : ws; // inlined for speed
+    output = (ws <= 0.0) ? 0.0 : ws; // relU inlined for speed
   }
 
   n->output = output;
