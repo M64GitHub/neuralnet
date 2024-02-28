@@ -28,8 +28,13 @@ double NN_Neuron_weightedsum(Neuron *n) {
 }
 
 double NN_Neuron_process(Neuron *n) {
-  double ws = NN_Neuron_weightedsum(n);
+  double ws = 0.0;
   double output = 0.0;
+
+  // inlined for speed (will be done by compiler optimimization, too. anyways)
+  for (int i = 0; i < n->num_inputs+1; i++) {
+    ws += n->input_vals[i] * n->weights[i];
+  }
 
   switch (n->af) {
   case NN_AF_NONE:
@@ -37,15 +42,15 @@ double NN_Neuron_process(Neuron *n) {
     break;
   case NN_AF_SIGMOID:
     // output = sigmoid(ws);
-    output = 1.0 / (1.0 + exp(-ws));
+    output = 1.0 / (1.0 + exp(-ws)); // inlined for speed
     break;
   case NN_AF_RELU:
     // output = relU(ws);
-    output = (ws <= 0.0) ? 0.0 : ws;
+    output = (ws <= 0.0) ? 0.0 : ws; // inlined for speed
     break;
   default:
     // output = relU(ws);
-    output = (ws <= 0.0) ? 0.0 : ws;
+    output = (ws <= 0.0) ? 0.0 : ws; // inlined for speed
   }
 
   n->output = output;
