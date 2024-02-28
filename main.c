@@ -6,8 +6,8 @@ int main() {
   unsigned long ts1 = 0;
   unsigned long ts2 = 0;
 
-  // 2 inputs, 1 output, 1 hidden layer, layer size: 3, sigmoid
-  NeuralNetwork *network = NN_Network_initialize(2, 1, 4, 10, NN_AF_SIGMOID);
+  // 2 inputs, 1 output, 1 hidden layer, layer size: 3, relU
+  NeuralNetwork *network = NN_Network_initialize(2, 1, 4, 10, NN_AF_RELU);
 
   ts1 = get_timestamp();
   // potential values for MNIST

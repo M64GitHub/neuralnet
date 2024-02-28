@@ -77,7 +77,6 @@ NN_Network_initialize(int n_i_neurons, int n_o_neurons, int n_hidden_layers,
   }
 
   // -- init neurons (set bias input to 1, all else to 0), all
-
   // input layer: as many neurons as inputs to the network
   // input neuron: 1 input
   for (int i = 0; i < n_i_neurons; i++) {
@@ -90,11 +89,11 @@ NN_Network_initialize(int n_i_neurons, int n_o_neurons, int n_hidden_layers,
     // init neurons weights, values to 0
     network->i_layer[i].input_vals[0] = 1.0; // fixed bias multiplicator
     network->i_layer[i].weights[0] = 0.0;    // bias
-
+    // network input
     network->i_layer[i].input_vals[1] = 0.0; // input neuron input = 0
     network->i_layer[i].weights[1] = 0.0;    // input neuron weight = 0
 
-    network->i_layer[i].output = i; // input neuron output = 0
+    network->i_layer[i].output = 0.0; // input neuron output = 0
   }                                 // i, input layer neuron number
 
   // output layer: as many neurons as specified as network outputs
@@ -107,23 +106,19 @@ NN_Network_initialize(int n_i_neurons, int n_o_neurons, int n_hidden_layers,
         (double *)malloc(sizeof(double) * (n_neurons_per_hlayer + 1));
     network->o_layer[o].weights =
         (double *)malloc(sizeof(double) * (n_neurons_per_hlayer + 1));
-
     // init neuron's bias to 0
     network->o_layer[o].input_vals[0] = 1.0; // fixed bias multiplicator 1
     network->o_layer[o].weights[0] = 0.0;    // bias = 0
-
     // init neuron's weights, values to 0
     for (int i = 1; i < (n_neurons_per_hlayer + 1); i++) {
       network->o_layer[o].input_vals[i] = 0.0; // output neuron input = 0
       network->o_layer[o].weights[i] = 0.0;    // output neuron weight = 0
     }
-
-    // network->o_layer[o].output = 0.0; // output neuron output = 0
-    network->o_layer[o].output = o; // output neuron output = 0
+   network->o_layer[o].output = 0.0;// output neuron output = 0
   }                                 // o, output layer neuron number
 
   // hidden layers
-  // hidden Layer 0
+  // hidden Layer 0 - special case, as connected to input neurons
   for (int l = 0; l < n_neurons_per_hlayer; l++) {
     network->h_layers[0][l].af = activation_function_type;
     network->h_layers[0][l].num_inputs = n_i_neurons;
@@ -132,7 +127,6 @@ NN_Network_initialize(int n_i_neurons, int n_o_neurons, int n_hidden_layers,
         (double *)malloc(sizeof(double) * (n_i_neurons + 1));
     network->h_layers[0][l].weights =
         (double *)malloc(sizeof(double) * (n_i_neurons + 1));
-
     // init neuron's bias to 0
     network->h_layers[0][l].input_vals[0] = 1.0; // fixed bias multiplicator 1
     network->h_layers[0][l].weights[0] = 0.0;    // bias = 0
@@ -142,10 +136,10 @@ NN_Network_initialize(int n_i_neurons, int n_o_neurons, int n_hidden_layers,
       network->h_layers[0][l].input_vals[i] = 0.0; // neuron input = 0
       network->h_layers[0][l].weights[i] = 0.0;    // neuron weight = 0
     }
-
-    network->h_layers[0][l].output = l; // neuron output = 0
+    network->h_layers[0][l].output = 0.0; // neuron output = 0
   }
 
+  // hidden layers 1-...
   for (int L = 1; L < n_hidden_layers; L++) {
     for (int l = 0; l < n_neurons_per_hlayer; l++) {
       network->h_layers[L][l].af = activation_function_type;
@@ -155,7 +149,6 @@ NN_Network_initialize(int n_i_neurons, int n_o_neurons, int n_hidden_layers,
           (double *)malloc(sizeof(double) * (n_neurons_per_hlayer + 1));
       network->h_layers[L][l].weights =
           (double *)malloc(sizeof(double) * (n_neurons_per_hlayer + 1));
-
       // init neuron's bias to 0
       network->h_layers[L][l].input_vals[0] = 1.0; // fixed bias multiplicator 1
       network->h_layers[L][l].weights[0] = 0.0;    // bias = 0
@@ -165,10 +158,9 @@ NN_Network_initialize(int n_i_neurons, int n_o_neurons, int n_hidden_layers,
         network->h_layers[L][l].input_vals[i] = 0.0; // neuron input = 0
         network->h_layers[L][l].weights[i] = 0.0;    // neuron weight = 0
       }
-
-      network->h_layers[L][l].output = l; // neuron output = 0
-    }                                     // l, hidden layer neuron number
-  }                                       // L, layer number
+      network->h_layers[L][l].output = 0.0; // neuron output = 0
+    }                                       // l, hidden layer neuron number
+  }                                         // L, layer number
 
   return network;
 }
@@ -179,7 +171,6 @@ void NN_Network_free(NeuralNetwork *network) {
     free(network->i_layer[i].input_vals);
     free(network->i_layer[i].weights);
   }
-
   // hidden layers
   for (int L = 0; L < network->num_h_layers; L++) {
     for (int l = 0; l < network->neurons_per_h_layer; l++) {
@@ -191,7 +182,7 @@ void NN_Network_free(NeuralNetwork *network) {
     free(network->h_layers[L]);
   }
   free(network->h_layers);
-
+  // output layer
   for (int o = 0; o < network->num_outputs; o++) {
     Neuron n = network->o_layer[o];
     free(n.input_vals);
@@ -280,24 +271,21 @@ void NN_Network_propagate_forward(NeuralNetwork *network) {
 void NN_Neuron_dump(Neuron *neuron) {
   Neuron n = *neuron;
   // inputs
-  printf("I(%d):", n.num_inputs);
+  printf("I[%d]:", n.num_inputs);
   for (int i = 0; i < n.num_inputs; i++) {
     printf("%.2f", n.input_vals[i + 1]);
     if (i < (n.num_inputs - 1))
       printf(",");
   }
-
   // weights
-  printf(" W(%d):", n.num_inputs);
+  printf(" W[%d]:", n.num_inputs);
   for (int i = 0; i < n.num_inputs; i++) {
     printf("%.2f", n.weights[i + 1]);
     if (i < (n.num_inputs - 1))
       printf(",");
   }
-
   // bias:
   printf(" B:%.2f", n.weights[0]);
-
   // output
   printf(" O:%.2f\n", n.output);
 }
@@ -306,16 +294,12 @@ void NN_Network_dump(NeuralNetwork *network) {
   printf("NN %p: #I:%d, #O:%d, #L:%d Lsz:%d\n", network,
          network->num_inputs, network->num_outputs, network->num_h_layers,
          network->neurons_per_h_layer);
-
   // inputs
   printf("  LI: %d neurons\n", network->num_inputs);
   for (int i = 0; i < network->num_inputs; i++) {
-    // printf("%f", network->i_layer[i].input_vals[1]); // 0 is bias
     printf("    N%d: ", i);
     NN_Neuron_dump(&network->i_layer[i]);
   }
-  // printf("\n");
-
   // hidden layers
   for (int L = 0; L < network->num_h_layers; L++) {
     printf("  LH%d: %d neurons\n", L, network->neurons_per_h_layer);
@@ -324,13 +308,10 @@ void NN_Network_dump(NeuralNetwork *network) {
       Neuron n = network->h_layers[L][l];
       NN_Neuron_dump(&n);
     }
-    // printf("\n");
   }
-
   // outputs
   printf("  LO: %d neurons\n", network->num_outputs);
   for (int o = 0; o < network->num_outputs; o++) {
-    // printf("%.2f", network->o_layer[o].output); // 0 is bias
     printf("    N%d: ", o);
     NN_Neuron_dump(&network->o_layer[o]);
   }
