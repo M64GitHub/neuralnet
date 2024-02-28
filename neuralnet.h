@@ -61,7 +61,6 @@ double NN_af_relU(double x);
 // -- neuron functions
 double NN_Neuron_weightedsum(Neuron *n);
 double NN_Neuron_process(Neuron *n);
-void NN_Neuron_dump(Neuron *neuron);
 
 // -- neural net functions
 NeuralNetwork *

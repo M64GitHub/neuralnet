@@ -280,68 +280,59 @@ void NN_Network_propagate_forward(NeuralNetwork *network) {
 void NN_Neuron_dump(Neuron *neuron) {
   Neuron n = *neuron;
   // inputs
-  printf("i{");
+  printf("I(%d):", n.num_inputs);
   for (int i = 0; i < n.num_inputs; i++) {
     printf("%.2f", n.input_vals[i + 1]);
     if (i < (n.num_inputs - 1))
       printf(",");
   }
-  printf("}/");
 
   // weights
-  printf("w{");
+  printf(" W(%d):", n.num_inputs);
   for (int i = 0; i < n.num_inputs; i++) {
     printf("%.2f", n.weights[i + 1]);
     if (i < (n.num_inputs - 1))
       printf(",");
   }
-  printf("}/");
 
   // bias:
-  printf("b:%.2f/", n.weights[0]);
+  printf(" B:%.2f", n.weights[0]);
 
   // output
-  printf("o:%.2f}", n.output);
+  printf(" O:%.2f\n", n.output);
 }
 
-// Function to dump values of a nn
 void NN_Network_dump(NeuralNetwork *network) {
-  printf("dumping network %p: #i:%d, #o:%d, #L:%d Lsz:%d\n", network,
+  printf("NN %p: #I:%d, #O:%d, #L:%d Lsz:%d\n", network,
          network->num_inputs, network->num_outputs, network->num_h_layers,
          network->neurons_per_h_layer);
 
   // inputs
-  printf("LI:{");
+  printf("  LI: %d neurons\n", network->num_inputs);
   for (int i = 0; i < network->num_inputs; i++) {
     // printf("%f", network->i_layer[i].input_vals[1]); // 0 is bias
-    printf("N%d:", i);
+    printf("    N%d: ", i);
     NN_Neuron_dump(&network->i_layer[i]);
-    if (i < (network->num_inputs - 1))
-      printf(", ");
   }
-  printf("}\n");
+  // printf("\n");
 
   // hidden layers
   for (int L = 0; L < network->num_h_layers; L++) {
-    printf("LH[%d]:{", L);
+    printf("  LH%d: %d neurons\n", L, network->neurons_per_h_layer);
     for (int l = 0; l < network->neurons_per_h_layer; l++) {
-      printf("N%d:", l);
+      printf("    N%d/%d: ", L, l);
       Neuron n = network->h_layers[L][l];
       NN_Neuron_dump(&n);
-      if (l < (network->neurons_per_h_layer - 1))
-        printf(", ");
     }
-    printf("}\n");
+    // printf("\n");
   }
 
   // outputs
-  printf("LO:{");
+  printf("  LO: %d neurons\n", network->num_outputs);
   for (int o = 0; o < network->num_outputs; o++) {
     // printf("%.2f", network->o_layer[o].output); // 0 is bias
-    printf("N%d:", o);
+    printf("    N%d: ", o);
     NN_Neuron_dump(&network->o_layer[o]);
-    if (o < (network->num_outputs - 1))
-      printf(", ");
   }
-  printf("}\n");
+  printf("\n");
 }
