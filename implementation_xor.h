@@ -1,3 +1,4 @@
+// xor nn, 2024 M64. Schallner
 #ifndef __XOR_H__
 #define __XOR_H__
 #include "nn_neuralnet.h"

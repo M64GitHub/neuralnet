@@ -1,5 +1,6 @@
-// xor nn, 2024 M64. Schallner
-// gcc nn_neuralnet.c nn_evolution_ga.c nn_timing.c implementation_xor.c -lm --debug -Ofast -Wall -o xor
+// xor nn, 2024 M64. Schallner <mario.a.schallner@gmail.com>
+// gcc nn_neuralnet.c nn_evolution_ga.c nn_timing.c implementation_xor.c -lm
+// --debug -Ofast -Wall -o xor
 
 #include "implementation_xor.h"
 #include "nn_neuralnet.h"
@@ -25,25 +26,28 @@ void xor_visualizer(int size, NeuralNetwork *n) {
   printf("-->1 I[0]\n");
 
   for (int y = 0; y < size; y++) {
-    if (y == (size - 2)) colorprintf(255, "v"); 
-    else if (y == (size - 1)) colorprintf(255, "1"); 
-    else colorprintf(255, "|");
+    if (y == (size - 2))
+      colorprintf(255, "v");
+    else if (y == (size - 1))
+      colorprintf(255, "1");
+    else
+      colorprintf(255, "|");
 
     for (int x = 0; x < size; x++) {
-        // v = ( ((double)x) ) / ( (double)size ) * 255.0;
-        inputs[0] = ((double)x) / ((double)size) * 255.0;
-        inputs[1] = ((double)y) / ((double)size) * 255.0;
+      // v = ( ((double)x) ) / ( (double)size ) * 255.0;
+      inputs[0] = ((double)x) / ((double)size) * 255.0;
+      inputs[1] = ((double)y) / ((double)size) * 255.0;
 
-        NN_Network_input_values_set(n, inputs);
-        // n->o_layer[0].weights[0] = 0.5; // test
-        NN_Network_propagate_forward(n);
+      NN_Network_input_values_set(n, inputs);
+      // n->o_layer[0].weights[0] = 0.5; // test
+      NN_Network_propagate_forward(n);
 
-        v = n->o_layer[0].output * 255;
-        v = (v < 0) ? 0.0 : v;
-        v = (v > 255.0) ? 255.0 : v;
+      v = n->o_layer[0].output * 255;
+      v = (v < 0) ? 0.0 : v;
+      v = (v > 255.0) ? 255.0 : v;
 
-        colorprintf(v, "**");
-      }
+      colorprintf(v, "**");
+    }
     printf("\n");
   }
   colorprintf(255, "I[1]\n");
