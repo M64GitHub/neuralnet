@@ -15,7 +15,7 @@ Currently, this project involves recreating work I undertook in my youth using C
 - Training: in progress
 - Evolutionary / genetic algorithms: in progress
 - Visualizing: in progress
-- Debugging: /
+- Debugging: in progress
 - Model Data import / export: /
 - Add optional convolutional layer type, filters, pooling: /
 
