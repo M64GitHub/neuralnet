@@ -39,7 +39,7 @@ void xor_visualizer(int size, NeuralNetwork *n) {
       inputs[1] = ((double)y) / ((double)size) * 255.0;
 
       NN_Network_input_values_set(n, inputs);
-      // n->o_layer[0].weights[0] = 0.5; // test
+      n->o_layer[0].weights[0] = 0.5; // test
       NN_Network_propagate_forward(n);
 
       v = n->o_layer[0].output * 255;
