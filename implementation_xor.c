@@ -126,6 +126,7 @@ int main() {
     printf(" * input/output xy-visualizer\n");
     if (!(iteration % 1000))
       xor_visualizer(20, network);
+    printf("\n");
 
     double delta = o4 - o1;
     // if (delta < 0)
