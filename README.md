@@ -25,7 +25,7 @@ First real test results show XOR can already be found without training, just by 
 
 ![image](https://github.com/M64GitHub/neuralnet/assets/84202356/d1d7ff69-fc3f-46b7-9e1d-ff6d5315a2aa)
 
-![image](https://github.com/M64GitHub/neuralnet/assets/84202356/2ba8ff0d-1413-4c1b-b8ab-b94a48a85cf2)
+![image](https://github.com/M64GitHub/neuralnet/assets/84202356/a76551a1-3253-47b4-ba82-11726e3b4bdd)
 
 
 ## Specification
