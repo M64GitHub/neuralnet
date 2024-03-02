@@ -56,16 +56,40 @@ void xor_visualizer(int size, NeuralNetwork *n) {
       NN_Network_input_values_set(n, inputs);
       NN_Network_propagate_forward(n);
       out = (int)((n->o_layer[0].output) + 0.5f);
-      v = (int)((n->o_layer[0].output * 255.0) +0.5f);
-
-      // colorprintf(v, "%1.0f ", (v / 255.0));
-      // colorprintf(v, "%.2f ", n->o_layer[0].output);
+      v = (int)((n->o_layer[0].output * 255.0) + 0.5f);
       colorprintf(v, " %1d", out);
       printf("\x1b[0m"); // reset all modes
     }
     printf("\n");
   }
-  printf("I[1]                                               \n");
+  printf("I[1]\n");
+}
+
+void dump_network4x(int *o1, int *o2, int *o3, int *o4,
+                    NeuralNetwork *network) {
+  printf(" * network dump I[]: [0,0] -> O1:\n");
+  NN_Network_input_values_set(network, (double[]){0.0, 0.0});
+  NN_Network_propagate_forward(network);
+  *o1 = (int)(network->o_layer[0].output + 0.5f);
+  NN_Network_dump(network);
+
+  printf(" * network dump I[]: [0,1]-> O2:\n");
+  NN_Network_input_values_set(network, (double[]){0.0, 1.0});
+  NN_Network_propagate_forward(network);
+  *o2 = (int)(network->o_layer[0].output + 0.5f);
+  NN_Network_dump(network);
+
+  printf(" * network dump I[]: [1,0] -> O3:\n");
+  NN_Network_input_values_set(network, (double[]){1.0, 0.0});
+  NN_Network_propagate_forward(network);
+  *o3 = (int)(network->o_layer[0].output + 0.5f);
+  NN_Network_dump(network);
+
+  printf(" * network dump I[]: [1,1] -> O4:\n");
+  NN_Network_input_values_set(network, (double[]){1.0, 1.0});
+  NN_Network_propagate_forward(network);
+  *o4 = (int)(network->o_layer[0].output + 0.5f);
+  NN_Network_dump(network);
 }
 
 int main() {
@@ -84,53 +108,31 @@ int main() {
   NeuralNetwork *network = NN_Network_initialize(2, 1, 1, 2, NN_AF_RELU);
   ts2 = get_duration_since(ts1);
   printf(" * initialization took: %lu usecs\n", ts2);
+  ts1 = get_timestamp();
+  NN_Network_propagate_forward(network);
+  ts2 = get_duration_since(ts1);
+  printf("\n");
+  printf(" * forward propagation took: %lu usecs\n", ts2);
 
   int iteration = 0;
   while (1) {
     iteration++;
     cursor_home();
+    ts1 = get_timestamp();
     srand(ts1);
     NN_Network_randomize_weights(network);
-    ts1 = get_timestamp();
-    NN_Network_propagate_forward(network);
-    ts2 = get_duration_since(ts1);
-    printf("\n");
-    printf(" * forward propagation took: %lu usecs\n", ts2);
-
-    printf("\n");
-    printf(" * network dump:\n");
-    NN_Network_input_values_set(network, (double[]){0.0, 0.0});
-    NN_Network_propagate_forward(network);
-    o1 = (int)(network->o_layer[0].output + 0.5f);
-    NN_Network_dump(network);
-
-    NN_Network_input_values_set(network, (double[]){0.0, 1.0});
-    NN_Network_propagate_forward(network);
-    o2 = (int)(network->o_layer[0].output + 0.5f);
-    // NN_Network_dump(network);
-
-    NN_Network_input_values_set(network, (double[]){1.0, 0.0});
-    NN_Network_propagate_forward(network);
-    o3 = (int)(network->o_layer[0].output + 0.5f);
-    // NN_Network_dump(network);
-
-    NN_Network_input_values_set(network, (double[]){1.0, 1.0});
-    NN_Network_propagate_forward(network);
-    o4 = (int)(network->o_layer[0].output + 0.5f);
-    NN_Network_dump(network);
-    printf("\n");
-
-    printf(" * input/output xy-visualizer\n");
+    dump_network4x(&o1, &o2, &o3, &o4, network);
+    ts4 = get_duration_since(ts3);
+    printf("iteration: %d, (time: %lu)\n", iteration, ts4);
     if (!(iteration % 1000))
       xor_visualizer(20, network);
-
-    // if (delta < 0)
-    //   delta = -1.0 * delta;
-    ts4 = get_duration_since(ts3); //
-    printf("iteration: %d, (time: %lu)               \n", iteration,  ts4);
-    if((o1 ==0) && (o2==1) && (o3==1) && (o4==0)) {
+    if ((o1 == 0) && (o2 == 1) && (o3 == 1) && (o4 == 0)) {
+      term_clear();
+      printf(" * forward propagation took: %lu usecs\n", ts2);
+      printf("iteration: %d, (time: %lu)\n", iteration, ts4);
+      dump_network4x(&o1, &o2, &o3, &o4, network);
       xor_visualizer(20, network);
-      printf("o1: %d, o2: %d, o3: %d, o4: %d\n", o1, o2, o3, o4);
+      printf("O1: %d, O2: %d, O3: %d, O4: %d\n", o1, o2, o3, o4);
       break;
     }
   }
