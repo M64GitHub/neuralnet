@@ -21,7 +21,7 @@ double NN_af_relU(double x) { return (x <= 0.0) ? 0.0 : x; }
 
 double NN_Neuron_weightedsum(Neuron *n) {
   double ws = 0.0;
-  for (int i = 0; i < n->num_inputs+1; i++) {
+  for (int i = 0; i < (n->num_inputs + 1); i++) {
     ws += n->input_vals[i] * n->weights[i];
   }
   return ws;
@@ -32,7 +32,7 @@ double NN_Neuron_process(Neuron *n) {
   double output = 0.0;
 
   // inlined for speed (will be done by compiler optimimization, too. anyways)
-  for (int i = 0; i < n->num_inputs+1; i++) {
+  for (int i = 0; i < (n->num_inputs + 1); i++) {
     ws += n->input_vals[i] * n->weights[i];
   }
 
@@ -99,7 +99,7 @@ NN_Network_initialize(int n_i_neurons, int n_o_neurons, int n_hidden_layers,
     network->i_layer[i].weights[1] = 0.0;    // input neuron weight = 0
 
     network->i_layer[i].output = 0.0; // input neuron output = 0
-  }                                 // i, input layer neuron number
+  }                                   // i, input layer neuron number
 
   // output layer: as many neurons as specified as network outputs
   // output neuron: # of inputs = #of previous layer's neurons
@@ -119,8 +119,8 @@ NN_Network_initialize(int n_i_neurons, int n_o_neurons, int n_hidden_layers,
       network->o_layer[o].input_vals[i] = 0.0; // output neuron input = 0
       network->o_layer[o].weights[i] = 0.0;    // output neuron weight = 0
     }
-   network->o_layer[o].output = 0.0;// output neuron output = 0
-  }                                 // o, output layer neuron number
+    network->o_layer[o].output = 0.0; // output neuron output = 0
+  }                                   // o, output layer neuron number
 
   // hidden layers
   // hidden Layer 0 - special case, as connected to input neurons
@@ -296,8 +296,8 @@ void NN_Neuron_dump(Neuron *neuron) {
 }
 
 void NN_Network_dump(NeuralNetwork *network) {
-  printf("NN %p: #I:%d, #O:%d, #L:%d Lsz:%d\n", network,
-         network->num_inputs, network->num_outputs, network->num_h_layers,
+  printf("NN %p: #I:%d, #O:%d, #L:%d Lsz:%d\n", network, network->num_inputs,
+         network->num_outputs, network->num_h_layers,
          network->neurons_per_h_layer);
   // inputs
   printf("  LI: %d neurons\n", network->num_inputs);
@@ -321,4 +321,35 @@ void NN_Network_dump(NeuralNetwork *network) {
     NN_Neuron_dump(&network->o_layer[o]);
   }
   printf("\n");
+}
+
+void NN_Network_randomize_weights(NeuralNetwork *network) {
+  if (!network)
+    return;
+  Neuron *n;
+
+  // randomize weights
+
+  for (int ni = 0; ni < network->num_inputs; ni++) {
+    n = &network->i_layer[ni];
+    for (int i = 0; i < (n->num_inputs + 1); i++) {
+      n->weights[i] = ((double)rand() / (double)(RAND_MAX)) * 2.0 - 1.0;
+    } // weights, bias
+  }
+
+  for (int L = 0; L < network->num_h_layers; L++) {
+    for (int l = 0; l < network->neurons_per_h_layer; l++) {
+      n = &network->h_layers[L][l];
+      for (int i = 0; i < (n->num_inputs + 1); i++) {
+        n->weights[i] = ((double)rand() / (double)(RAND_MAX)) * 2.0 - 1.0;
+      }
+    } // number of neurons / layer
+  }   // hlayer
+
+  for (int no = 0; no < (network->num_outputs); no++) {
+    n = &network->o_layer[no];
+    for (int i = 0; i < n->num_inputs + 1; i++) {
+      n->weights[i] = ((double)rand() / (double)(RAND_MAX)) * 2.0 - 1.0;
+    } // weights, bias
+  }
 }

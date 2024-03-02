@@ -66,6 +66,7 @@ NeuralNetwork *
 NN_Network_initialize(int n_i_neurons, int n_o_neurons, int n_hidden_layers,
                       int n_neurons_per_hlayer,
                       NN_Activation_Function_ID activation_function_type);
+void NN_Network_randomize_weights(NeuralNetwork *network);
 void NN_Network_free(NeuralNetwork *network);
 void NN_Network_input_values_set(NeuralNetwork *network, double *inputValues);
 void NN_Network_propagate_forward(NeuralNetwork *network);
