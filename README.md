@@ -62,7 +62,7 @@ The structure of the final model is dynamically created, derived from the net's 
  - dump functions for Neuron, NeuralNetwork ... OK
  - forwardPropagation(NeuralNetwork *) ... OK
  - learning process based on evolution- and genetic algorithms ... in progress
- - progress visualisation ...
+ - progress visualisation ... in progress
  - export to any industry standard TensorFlow/Torch ...
    
 #### Model specific
