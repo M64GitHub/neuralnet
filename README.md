@@ -25,6 +25,7 @@ Current tests can find XOR already by randomizing the network's weigts only ;) -
 
 ![image](https://github.com/M64GitHub/neuralnet/assets/84202356/d1d7ff69-fc3f-46b7-9e1d-ff6d5315a2aa)
 
+![image](https://github.com/M64GitHub/neuralnet/assets/84202356/2396a5b5-4bea-4f08-bb21-c377feae81ef)
 
 
 Note: the output is a little bit messed up right now, will clean that soon.
