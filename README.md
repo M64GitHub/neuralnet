@@ -1,6 +1,9 @@
 # neuralnet
 
 Artificial Feedforward Evolutionary/Genetic Neural Network: An Adaptable Model for Test and Learning Purposes in Multi-class Classification or Nonlinear Regression. Evolution-theory and genetic algorithm based learning. Hacking playground and deep dive into the concepts of modern ML and Ai.
+![image](https://github.com/M64GitHub/neuralnet/assets/84202356/41b74981-b130-4ccf-a32d-ed7ac6ff631d)
+![image](https://github.com/M64GitHub/neuralnet/assets/84202356/88924509-ee7b-4033-beb2-0866419724a3)
+![image](https://github.com/M64GitHub/neuralnet/assets/84202356/bf6b8386-3000-403c-a815-30e8f9037d24)
 
 ## Motivation
 The objective is to explore and deepen understanding of contemporary machine learning concepts by implementing them from scratch and establishing a platform for experimentation. One key area of focus will involve analyzing the trained models to determine the most effective methods for assessment, if any. I plan to develop a visualizer or "debugger" to observe the trained model's behavior in response to various inputs. I'm curious to see if distinct "brain regions" will emerge, each triggering specific output labels, or if the model's comprehension will remain opaque.
