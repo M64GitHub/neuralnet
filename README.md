@@ -19,13 +19,18 @@ Currently, this project involves recreating work I undertook in my youth using C
 - Debugging: in progress
 - Model Data import / export: /
 - Add optional convolutional layer type, filters, pooling: /
+
 Current tests can find XOR already by randomizing the network's weigts only ;) - examples:
+
 
 ![image](https://github.com/M64GitHub/neuralnet/assets/84202356/bf6b8386-3000-403c-a815-30e8f9037d24)
 
+
 ![image](https://github.com/M64GitHub/neuralnet/assets/84202356/41b74981-b130-4ccf-a32d-ed7ac6ff631d)
 
+
 ![image](https://github.com/M64GitHub/neuralnet/assets/84202356/88924509-ee7b-4033-beb2-0866419724a3)
+
 
 ## Specification
 I opted for a format, where I bind the connection weights to their "end point", into the structure of the connected neuron on the receivers end. It is the neuron that processes the signal through it's activation function, so it made sense for me to store it there. As a consequence, I do not have a specific "layer structure", layers are defined as linear flat arrays of neurons.  
