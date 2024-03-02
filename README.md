@@ -1,6 +1,6 @@
 # neuralnet
 
-Artificial Feedforward Evolutionary/Genetic Neural Network: An Adaptable Generic Model for Test and Learning Purposes. Evolution-theory and genetic algorithm based learning vs classic backpropagation later on. Hacking playground and deep dive into the concepts of modern ML and Ai.
+Artificial feedforward evolutionary/genetic neural network: An adaptable generic model for test and learning purposes. Evolution-theory and genetic algorithm based learning vs classic backpropagation later on. Hacking playground and deep dive into the concepts of modern ML.
 
 
 ## Motivation
