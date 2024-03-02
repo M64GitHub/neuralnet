@@ -23,7 +23,7 @@ Currently, this project involves recreating work I undertook in my youth using C
 First real test results show XOR can already be found without training, just by randomizing the network's weigts only ;) - examples:
 
 
-![image](https://github.com/M64GitHub/neuralnet/assets/84202356/d1d7ff69-fc3f-46b7-9e1d-ff6d5315a2aa)
+![image](https://github.com/M64GitHub/neuralnet/assets/84202356/d34dafcc-28be-40d1-8532-1ab83b5e3f28)
 
 ![image](https://github.com/M64GitHub/neuralnet/assets/84202356/a76551a1-3253-47b4-ba82-11726e3b4bdd)
 
