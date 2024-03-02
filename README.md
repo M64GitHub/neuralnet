@@ -1,6 +1,6 @@
 # neuralnet
 
-Artificial Feedforward Evolutionary/Genetic Neural Network: An Adaptable Model for Test and Learning Purposes in Multi-class Classification or Nonlinear Regression. Evolution-theory and genetic algorithm based learning. Hacking playground and deep dive into the concepts of modern ML and Ai.
+Artificial Feedforward Evolutionary/Genetic Neural Network: An Adaptable Generic Model for Test and Learning Purposes. Aimed for Tests in  Multi-class Classification and Nonlinear Regression. Evolution-theory and genetic algorithm based learning. Hacking playground and deep dive into the concepts of modern ML and Ai.
 
 
 ## Motivation
