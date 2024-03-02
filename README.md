@@ -23,16 +23,9 @@ Currently, this project involves recreating work I undertook in my youth using C
 Current tests can find XOR already by randomizing the network's weigts only ;) - examples:
 
 
-![image](https://github.com/M64GitHub/neuralnet/assets/84202356/bf6b8386-3000-403c-a815-30e8f9037d24)
+![image](https://github.com/M64GitHub/neuralnet/assets/84202356/d1d7ff69-fc3f-46b7-9e1d-ff6d5315a2aa)
 
-
-![image](https://github.com/M64GitHub/neuralnet/assets/84202356/41b74981-b130-4ccf-a32d-ed7ac6ff631d)
-
-
-![image](https://github.com/M64GitHub/neuralnet/assets/84202356/88924509-ee7b-4033-beb2-0866419724a3)
-
-
-Note: the output is a little bit messed up right now, will clean that soon.
+![image](https://github.com/M64GitHub/neuralnet/assets/84202356/2ba8ff0d-1413-4c1b-b8ab-b94a48a85cf2)
 
 
 ## Specification
