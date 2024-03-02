@@ -49,15 +49,10 @@ void xor_visualizer(int size, NeuralNetwork *n) {
       printf("|");
 
     for (int x = 0; x < size; x++) {
-      // v = ( ((double)x) ) / ( (double)size ) * 255.0;
-      // inputs[0] = ((double)x) / ((double)size) * 255.0;
-      // inputs[1] = ((double)y) / ((double)size) * 255.0;
-
       inputs[0] = ((double)x) / ((double)size);
       inputs[1] = ((double)y) / ((double)size);
 
       NN_Network_input_values_set(n, inputs);
-      // n->o_layer[0].weights[0] = 0.5; // test
       NN_Network_propagate_forward(n);
 
       v = (int)(n->o_layer[0].output * 255.0);
@@ -70,21 +65,22 @@ void xor_visualizer(int size, NeuralNetwork *n) {
     }
     printf("\n");
   }
-  printf("I[1]\n");
+  printf("I[1]                                               \n");
 }
 
 int main() {
   unsigned long ts1 = 0;
   unsigned long ts2 = 0;
-  unsigned long ts3 = 0;
-  unsigned long ts4 = 0;
+  unsigned long ts3 = 0; // overall time
+  unsigned long ts4 = 0; //
   double o1, o2, o3, o4;
 
   term_clear();
 
   ts3 = get_timestamp();
-  srand(ts1);
+  srand(ts3);
   // 2 inputs, 1 output, 2 hidden layer, hidden layer size: 4, relU
+  ts1 = get_timestamp();
   NeuralNetwork *network = NN_Network_initialize(2, 1, 1, 2, NN_AF_RELU);
   ts2 = get_duration_since(ts1);
   printf(" * initialization took: %lu usecs\n", ts2);
@@ -122,17 +118,16 @@ int main() {
     NN_Network_propagate_forward(network);
     o4 = network->o_layer[0].output;
     NN_Network_dump(network);
+    printf("\n");
 
     printf(" * input/output xy-visualizer\n");
     if (!(iteration % 1000))
       xor_visualizer(20, network);
-    printf("\n");
 
-    double delta = o4 - o1;
     // if (delta < 0)
     //   delta = -1.0 * delta;
-    ts4 = get_duration_since(ts3);
-    printf("iteration: %d, delta: %02.3f (time: %lu)\n", iteration, delta, ts4);
+    ts4 = get_duration_since(ts3); //
+    printf("iteration: %d, (time: %lu)               \n", iteration,  ts4);
     if ((o1 < 0.5) && (o2 <= 1.0) && (o3 <= 1.0) && (o4 < 0.5) && (o2 >= 0.5) &&
         (o3 >= 0.5)) {
       xor_visualizer(20, network);
