@@ -2,6 +2,7 @@
 
 Artificial Feedforward Evolutionary/Genetic Neural Network: An Adaptable Model for Test and Learning Purposes in Multi-class Classification or Nonlinear Regression. Evolution-theory and genetic algorithm based learning. Hacking playground and deep dive into the concepts of modern ML and Ai.
 
+
 ## Motivation
 The objective is to explore and deepen understanding of contemporary machine learning concepts by implementing them from scratch and establishing a platform for experimentation. One key area of focus will involve analyzing the trained models to determine the most effective methods for assessment, if any. I plan to develop a visualizer or "debugger" to observe the trained model's behavior in response to various inputs. I'm curious to see if distinct "brain regions" will emerge, each triggering specific output labels, or if the model's comprehension will remain opaque.
 
@@ -18,6 +19,21 @@ Currently, this project involves recreating work I undertook in my youth using C
 - Debugging: in progress
 - Model Data import / export: /
 - Add optional convolutional layer type, filters, pooling: /
+
+Current tests can find XOR already by randomizing the network's weigts only ;) - examples:
+
+
+![image](https://github.com/M64GitHub/neuralnet/assets/84202356/bf6b8386-3000-403c-a815-30e8f9037d24)
+
+
+![image](https://github.com/M64GitHub/neuralnet/assets/84202356/41b74981-b130-4ccf-a32d-ed7ac6ff631d)
+
+
+![image](https://github.com/M64GitHub/neuralnet/assets/84202356/88924509-ee7b-4033-beb2-0866419724a3)
+
+
+Note: the output is a little bit messed up right now, will clean that soon.
+
 
 ## Specification
 I opted for a format, where I bind the connection weights to their "end point", into the structure of the connected neuron on the receivers end. It is the neuron that processes the signal through it's activation function, so it made sense for me to store it there. As a consequence, I do not have a specific "layer structure", layers are defined as linear flat arrays of neurons.  
