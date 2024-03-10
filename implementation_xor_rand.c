@@ -3,10 +3,13 @@
 // --debug -Ofast -Wall -o xor
 
 #include "implementation_xor.h"
+#include "nn_evolution_ga.h"
 #include "nn_neuralnet.h"
 #include "nn_timing.h"
 #include <stdio.h>
 #include <stdlib.h>
+
+Population *P;
 
 void cursor_reset() {
   printf("\x1b[0m"); // reset all modes
@@ -98,6 +101,7 @@ int main() {
   unsigned long ts3 = 0; // overall time
   unsigned long ts4 = 0; //
   int o1, o2, o3, o4;
+  char buf4k[4096];
 
   term_clear();
 
@@ -121,6 +125,7 @@ int main() {
     ts1 = get_timestamp();
     srand(ts1);
     NN_Network_randomize_weights(network);
+    NN_Population_run_forward_propagation(P);
     dump_network4x(&o1, &o2, &o3, &o4, network);
     ts4 = get_duration_since(ts3);
     printf("iteration: %d, (time: %lu)\n", iteration, ts4);

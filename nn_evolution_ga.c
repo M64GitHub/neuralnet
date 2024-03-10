@@ -1,5 +1,9 @@
 #include "nn_evolution_ga.h"
+#include "nn_neuralnet.h"
+#include <stdio.h>
 #include <stdlib.h>
+
+// -- INDIVIDUAL --
 
 Individual *NN_Individual_initialize(NeuralNetwork *reference_network) {
   Individual *individual;
@@ -20,6 +24,8 @@ void NN_Individual_free(Individual *I) {
   free(I);
 }
 
+// -- POPULATION --
+
 // Creates and returns initialized Population
 Population *NN_Population_initialize(int pop_size, NeuralNetwork *ref_nw) {
   Population *p = (Population *)malloc((sizeof(Population)));
@@ -35,6 +41,7 @@ Population *NN_Population_initialize(int pop_size, NeuralNetwork *ref_nw) {
   // create nn clones, and individuals
   for (int i = 0; i < pop_size; i++) {
     p->individuals[i] = NN_Individual_initialize(ref_nw);
+    NN_Network_randomize_weights(p->individuals[i]->network);
   }
 
   return p;
@@ -47,6 +54,55 @@ void NN_Population_free(Population *P) {
   // don't free reference nw yet, we free, where we malloc
   free(P);
 }
+
+void NN_Population_list_individuals(Population *P) {
+  if (!P)
+    return;
+
+  Individual *I = 0;
+  printf(" * Listing Population %p: %d Individuals ... :\n", P, P->size);
+  for (int i = 0; i < P->size; i++) {
+    I = P->individuals[i];
+    printf(" I #%03d: %p\n", i, I);
+    // if (!I)
+    //   continue;
+  }
+  printf("\n");
+}
+
+void NN_Population_dump_individuals(Population *P) {
+  if (!P)
+    return;
+
+  Individual *I = 0;
+  printf(" * Dumping Population %p: %d Individuals ... :\n", P, P->size);
+  for (int i = 0; i < P->size; i++) {
+    I = P->individuals[i];
+    printf("Individual #%03d: %p\n", i, I);
+     if (!I)
+       continue;
+    printf("Dumping Network:\n");
+    NN_Network_dump(I->network);
+  }
+  printf("\n");
+}
+
+void NN_Population_run_forward_propagation(Population *P) {
+  if (!P)
+    return;
+
+  Individual *I = 0;
+  for (int i = 0; i < P->size; i++) {
+    I = P->individuals[i];
+    printf(" I #%03d: %p\n", i, I);
+    if (!I) continue;
+    if(!I->network) continue;
+    NN_Network_propagate_forward(I->network);
+  }
+  printf("\n");
+}
+
+// -- WORLD --
 
 // Creates and returns initialized World
 World *NN_World_initialize(int pop_size, double mut_rate_ind, double mut_rate,
@@ -83,7 +139,7 @@ void NN_World_free(World *W) {
   free(W->populations);
 
   if (W->reference_network)
-    NN_Network_free(W->reference_network);
+ NN_Network_free(W->reference_network);
 
   free(W);
 }

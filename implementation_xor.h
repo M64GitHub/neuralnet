@@ -8,4 +8,6 @@ void colorprintf(int intensity, const char *f, ...);
 
 void xor_visualizer(int size, NeuralNetwork *n);
 
+double xor_fitness(NeuralNetwork *n);
+
 #endif

@@ -1,7 +1,7 @@
 .git/
 .ccls-cache/
 neuralnet
-xor
+xor_*
 
 
 

@@ -45,6 +45,9 @@ void NN_Individual_free(Individual *I);
 
 Population *NN_Population_initialize(int pop_size, NeuralNetwork *ref_nw);
 void NN_Population_free(Population *P);
+void NN_Population_list_individuals(Population *P);
+void NN_Population_dump_individuals(Population *P);
+void NN_Population_run_forward_propagation(Population *P);
 
 // --
 
