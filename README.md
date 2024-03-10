@@ -20,7 +20,7 @@ Currently, this project involves recreating work I undertook in my youth using C
 - Model Data import / export: /
 - Add optional convolutional layer type, filters, pooling: /
 
-First real test results show XOR can already be found without training, just by randomizing the network's weigts only ;) - examples:
+First real test results show XOR can already be found without training, just by randomizing the network's weigts only, and rounding the results ;) - examples:
 
 | Example 1                           | Example 2                           |
 | ----------------------------------- | ----------------------------------- |
@@ -62,7 +62,7 @@ The structure of the final model is dynamically created, derived from the net's 
  - dump functions for Neuron, NeuralNetwork ... OK
  - forwardPropagation(NeuralNetwork *) ... OK
  - learning process based on evolution- and genetic algorithms ... in progress
- - progress visualisation ...
+ - progress visualisation ... in progress
  - export to any industry standard TensorFlow/Torch ...
    
 #### Model specific
