@@ -20,7 +20,7 @@ Currently, this project involves recreating work I undertook in my youth using C
 - Model Data import / export: /
 - Add optional convolutional layer type, filters, pooling: /
 
-First real test results show XOR can already be found without training, just by randomizing the network's weigts only:
+First real test results show XOR can already be found without training, just by randomizing the network's weights only:
 
 | Example 1                           | Example 2                           |
 | ----------------------------------- | ----------------------------------- |
