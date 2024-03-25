@@ -4,7 +4,7 @@ Artificial feedforward evolutionary/genetic neural network: An adaptable generic
 
 
 ## Motivation
-The objective is to explore and deepen understanding of contemporary machine learning concepts by implementing them from scratch and establishing a platform for experimentation. One key area of focus will involve analyzing the trained models to determine the most effective methods for assessment, if any. I plan to develop a visualizer to observe the trained model's behavior in response to various inputs. 
+The objective is to explore and deepen understanding of contemporary machine learning concepts by implementing them from scratch and establishing a platform for experimentation. One key area of focus will involve analyzing the trained models to determine the most effective methods for assessment, if any. I plan to develop a visualizer to observe the trained model's activation paths in response to various inputs. 
 
 #### Why C?
 Currently, this project involves recreating work I undertook in my youth using C++, and expanding upon it. I opted for C at this time because it facilitates future translation, such as converting the code into CUDA kernels and utilizing the existing structs as they are. Additionally, the C code can be readily translated into C++ classes. Furthermore, translating it to Zig is likely easier than starting from a C++ code base.
