@@ -120,6 +120,7 @@ int main() {
 
   int iteration = 0;
   while (1) {
+  // while (iteration < 10000) { // for valgrind checks
     iteration++;
     cursor_home();
     ts1 = get_timestamp();

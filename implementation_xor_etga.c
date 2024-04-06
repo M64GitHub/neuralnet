@@ -235,8 +235,8 @@ int main() {
       break;
     }
 
-    printf(" * press ENTER to continue ...");
-    fread(buf4k, 1, 1, stdin);
+    // printf(" * press ENTER to continue ...");
+    // fread(buf4k, 1, 1, stdin);
   }
 
   NN_Network_free(network);

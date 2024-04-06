@@ -2,6 +2,12 @@
 // <mario.a.schallner@gmail.com>
 // A forward propagation artifical neural network (ANN).
 // Evolution-theory and genetic algorithm based learning.
+//
+// memory leak checked via:
+// valgrind -s  --leak-check=full --leak-check=full --show-leak-kinds=all 
+//          ./xor_rand
+//
+//  TODO: install signal handler for ctrl-c and free network
 
 #include "nn_neuralnet.h"
 #include "nn_timing.h"
@@ -193,6 +199,10 @@ void NN_Network_free(NeuralNetwork *network) {
     free(n.input_vals);
     free(n.weights);
   }
+  free(network->o_layer);
+  free(network->i_layer);
+
+  free(network);
 }
 
 // Function to set input values for the input layer
