@@ -72,4 +72,6 @@ void NN_Network_input_values_set(NeuralNetwork *network, double *inputValues);
 void NN_Network_propagate_forward(NeuralNetwork *network);
 void NN_Network_dump(NeuralNetwork *network);
 
+char *NN_Network_serialize(NeuralNetwork *network);
+
 #endif

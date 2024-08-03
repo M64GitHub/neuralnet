@@ -70,28 +70,28 @@ void xor_visualizer(int size, NeuralNetwork *n) {
 
 void dump_network4x(int *o1, int *o2, int *o3, int *o4,
                     NeuralNetwork *network) {
-  printf(" * network dump I[]: [0,0] -> O1:\n");
   NN_Network_input_values_set(network, (double[]){0.0, 0.0});
   NN_Network_propagate_forward(network);
   *o1 = (int)(network->o_layer[0].output + 0.5f);
+  printf(" * network dump I[]: [0,0] -> O1: %d\n", *o1);
   NN_Network_dump(network);
 
-  printf(" * network dump I[]: [0,1]-> O2:\n");
   NN_Network_input_values_set(network, (double[]){0.0, 1.0});
   NN_Network_propagate_forward(network);
   *o2 = (int)(network->o_layer[0].output + 0.5f);
+  printf(" * network dump I[]: [0,1]-> O2: %d\n", *o2);
   NN_Network_dump(network);
 
-  printf(" * network dump I[]: [1,0] -> O3:\n");
   NN_Network_input_values_set(network, (double[]){1.0, 0.0});
   NN_Network_propagate_forward(network);
   *o3 = (int)(network->o_layer[0].output + 0.5f);
+  printf(" * network dump I[]: [1,0] -> O3: %d\n", *o3);
   NN_Network_dump(network);
 
-  printf(" * network dump I[]: [1,1] -> O4:\n");
   NN_Network_input_values_set(network, (double[]){1.0, 1.0});
   NN_Network_propagate_forward(network);
   *o4 = (int)(network->o_layer[0].output + 0.5f);
+  printf(" * network dump I[]: [1,1] -> O4: %d\n", *o4);
   NN_Network_dump(network);
 }
 

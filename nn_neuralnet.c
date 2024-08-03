@@ -4,7 +4,7 @@
 // Evolution-theory and genetic algorithm based learning.
 //
 // memory leak checked via:
-// valgrind -s  --leak-check=full --leak-check=full --show-leak-kinds=all 
+// valgrind -s  --leak-check=full --leak-check=full --show-leak-kinds=all
 //          ./xor_rand
 //
 //  TODO: install signal handler for ctrl-c and free network
@@ -105,7 +105,7 @@ NN_Network_initialize(int n_i_neurons, int n_o_neurons, int n_hidden_layers,
     network->i_layer[i].weights[1] = 0.0;    // input neuron weight = 0
 
     network->i_layer[i].output = 0.0; // input neuron output = 0
-  }                                   // i, input layer neuron number
+  } // i, input layer neuron number
 
   // output layer: as many neurons as specified as network outputs
   // output neuron: # of inputs = #of previous layer's neurons
@@ -126,7 +126,7 @@ NN_Network_initialize(int n_i_neurons, int n_o_neurons, int n_hidden_layers,
       network->o_layer[o].weights[i] = 0.0;    // output neuron weight = 0
     }
     network->o_layer[o].output = 0.0; // output neuron output = 0
-  }                                   // o, output layer neuron number
+  } // o, output layer neuron number
 
   // hidden layers
   // hidden Layer 0 - special case, as connected to input neurons
@@ -170,8 +170,8 @@ NN_Network_initialize(int n_i_neurons, int n_o_neurons, int n_hidden_layers,
         network->h_layers[L][l].weights[i] = 0.0;    // neuron weight = 0
       }
       network->h_layers[L][l].output = 0.0; // neuron output = 0
-    }                                       // l, hidden layer neuron number
-  }                                         // L, layer number
+    } // l, hidden layer neuron number
+  } // L, layer number
 
   return network;
 }
@@ -273,8 +273,8 @@ void NN_Network_propagate_forward(NeuralNetwork *network) {
           network->o_layer[l].input_vals[h + 1] = neuron->output;
         }
       } // store in hidden or output layer
-    }   // h
-  }     // L
+    } // h
+  } // L
 
   // output layer: for all output neurons
   for (int n = 0; n < network->num_outputs; n++) {
@@ -354,7 +354,7 @@ void NN_Network_randomize_weights(NeuralNetwork *network) {
         n->weights[i] = ((double)rand() / (double)(RAND_MAX)) * 2.0 - 1.0;
       }
     } // number of neurons / layer
-  }   // hlayer
+  } // hlayer
 
   for (int no = 0; no < (network->num_outputs); no++) {
     n = &network->o_layer[no];
@@ -363,3 +363,9 @@ void NN_Network_randomize_weights(NeuralNetwork *network) {
     } // weights, bias
   }
 }
+
+// --
+
+// TODO:
+
+char *NN_Network_serialize(NeuralNetwork *network) { return 0; }
